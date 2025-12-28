@@ -46,8 +46,8 @@ if submit:
     
     st.markdown("## Seu Scorecard Estratégico")
     st.plotly_chart(fig)
-    meu_whats = "553183984001"
-    # Parecer Consultivo (Baseado em David D'Angelli / FDC / MITx)
+    meu_whats = "5531983984001" # Coloquei o 9 de volta, mas vamos garantir o link abaixo
+    link_whatsapp = f"https://wa.me/{meu_whats}?text={mensagem_codificada}"
     st.markdown("### 🚩 Parecer Preliminar")
     if p2 < 6:
         st.warning(f"Atenção {nome}: A baixa prontidão para a Reforma 2026 representa um risco microeconômico de perda de margem direta.")
