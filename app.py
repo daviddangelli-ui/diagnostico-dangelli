@@ -1,18 +1,17 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import urllib.parse
 
 st.set_page_config(page_title="DANGELLI - Diagnóstico 2026", layout="centered")
 
 st.title("🛡️ Diagnóstico de Prontidão 2026")
-st.write("Avalie o nível de maturidade da sua empresa para o próximo ano.")
+st.write("Avalie o nível de maturidade da sua empresa.")
 
 with st.form("diagnostico"):
     nome = st.text_input("Seu Nome Completo")
     empresa = st.text_input("Nome da sua Empresa")
     
-    st.write("### Dê uma nota de 1 a 5 para cada área:")
+    st.write("### Notas de 1 a 5:")
     n1 = st.slider("Processos (FDC/MIT)", 1, 5, 3)
     n2 = st.slider("Presença Digital", 1, 5, 3)
     n3 = st.slider("Uso de IA", 1, 5, 3)
@@ -31,13 +30,11 @@ if enviado:
     fig.update_traces(fill='toself')
     st.plotly_chart(fig)
 
-    # WHATSAPP - CONFIGURAÇÃO FINAL
-    numero = "5531983984001"
-    mensagem = f"Ola David! Fiz o Diagnostico 2026.\nNome: {nome}\nEmpresa: {empresa}\nNotas: {n1}, {n2}, {n3}, {n4}, {n5}"
-    
-    # Codificação ultra-segura
-    texto_final = urllib.parse.quote(mensagem)
-    link_zap = f"https://wa.me/{numero}?text={texto_final}"
+    # LINK DO WHATSAPP SEM O 9 (TESTE DEFINITIVO)
+    # Formato: 55 + DDD (31) + Número (83984001)
+    numero_valido = "553183984001"
+    link_final = f"https://wa.me/{numero_valido}"
 
     st.success("Diagnóstico gerado com sucesso!")
-    st.link_button("✅ CONFIRMAR VAGA NA MASTERCLASS", link_zap)
+    st.write("Clique no botão abaixo para falar com o David:")
+    st.link_button("✅ CONFIRMAR VAGA NA MASTERCLASS", link_final)
