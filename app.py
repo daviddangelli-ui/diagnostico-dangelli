@@ -46,7 +46,7 @@ if submit:
     
     st.markdown("## Seu Scorecard Estratégico")
     st.plotly_chart(fig)
-    
+    meu_whats = "5531983984001"
     # Parecer Consultivo (Baseado em David D'Angelli / FDC / MITx)
     st.markdown("### 🚩 Parecer Preliminar")
     if p2 < 6:
