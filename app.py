@@ -42,24 +42,23 @@ if submit:
         r=[p1, p2, p3, p4],
         theta=['Governança','Reforma 2026','Estratégia','Valuation/M&A']))
     fig = px.line_polar(df, r='r', theta='theta', line_close=True)
-    fig.update_traces(fill='toself', line_color='#d4af37')
-    
-    st.markdown("## Seu Scorecard Estratégico")
+    # Exibir o gráfico
     st.plotly_chart(fig)
-    meu_whats = "5531983984001" # Coloquei o 9 de volta, mas vamos garantir o link abaixo
-    link_whatsapp = f"https://wa.me/{meu_whats}?text={mensagem_codificada}"
-    st.markdown("### 🚩 Parecer Preliminar")
-    if p2 < 6:
-        st.warning(f"Atenção {nome}: A baixa prontidão para a Reforma 2026 representa um risco microeconômico de perda de margem direta.")
-    else:
-        st.success("Sua estrutura demonstra resiliência para as mudanças tributárias.")
-        
-    st.info("Para receber o relatório completo e o convite para a Masterclass, clique no botão abaixo.")
 
-    # Botão WhatsApp
-    # Substitua o número abaixo pelo seu número real (com 55 + DDD)
-    meu_whats = "5511999999999" 
-    texto_whats = f"Olá David, sou {nome} da empresa {empresa}. Fiz o diagnóstico e quero meu relatório completo e vaga na Masterclass."
-    link_whats = f"https://wa.me/{meu_whats}?text={texto_whats.replace(' ', '%20')}"
+    # Configuração do WhatsApp
+    meu_whats = "5531983984001"
     
-    st.markdown(f'<a href="{link_whats}" target="_blank"><button style="width:100%; height:50px; background-color:#25D366; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">✅ CONFIRMAR VAGA NA MASTERCLASS E RECEBER PDF</button></a>', unsafe_allow_html=True)
+    # Criar a mensagem que você vai receber
+    texto_whats = f"Olá David! Acabei de fazer o Diagnóstico 2026.\n\nMeu Nome: {nome}\nEmpresa: {empresa}\n\nResultados:\n- Processos: {notas[0]}\n- Digital: {notas[1]}\n- IA: {notas[2]}\n- Dados: {notas[3]}\n- Gestão: {notas[4]}"
+    
+    # Codificar a mensagem para o link funcionar sem erros
+    import urllib.parse
+    mensagem_url = urllib.parse.quote(texto_whats)
+    link_final = f"https://wa.me/{meu_whats}?text={mensagem_url}"
+
+    st.markdown("---")
+    st.subheader("Próximo Passo:")
+    st.write("Para receber sua análise detalhada e garantir sua vaga na Masterclass, clique no botão abaixo:")
+    
+    # O BOTÃO QUE ESTAVA FALTANDO OU ERRADO
+    st.link_button("✅ CONFIRMAR VAGA NA MASTERCLASS", link_final)
