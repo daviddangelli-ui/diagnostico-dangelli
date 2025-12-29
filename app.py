@@ -40,7 +40,7 @@ if enviado:
     st.plotly_chart(fig)
 
     # Link do WhatsApp - Formato validado sem o 9
-    numero_valido = "553183984001"
+    numero_valido = "5531983984001"
     
     texto = f"Ola David! Fiz o Diagnostico DANGELLI.\n\nNome: {nome}\nEmpresa: {empresa}\nDesafio: {desafio}\n\nNotas:\n- Processos: {n1}\n- Digital: {n2}\n- IA: {n3}\n- Dados: {n4}\n- Gestao: {n5}"
     
