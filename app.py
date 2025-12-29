@@ -26,6 +26,7 @@ with st.form("diagnostico"):
     n3 = st.slider("Uso de Inteligência Artificial", 1, 5, 3)
     n4 = st.slider("Cultura de Dados", 1, 5, 3)
     n5 = st.slider("Gestão de Pessoas e Cultura", 1, 5, 3)
+
     
     enviado = st.form_submit_button("GERAR MEU DIAGNÓSTICO")
 
