@@ -14,7 +14,7 @@ with st.form("diagnostico_completo"):
   st.markdown("### ⚖️ Reforma Tributária 2026")
   t1 = st.select_slider("Simulação para 2026-2033?", options=["1", "2", "3", "4", "5"])
   enviado = st.form_submit_button("GERAR DIAGNÓSTICO")
-if enviado:
+  if enviado:
     if not nome or not empresa:
         st.error("Preencha a identificação.")
     else:
