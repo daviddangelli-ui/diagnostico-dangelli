@@ -10,9 +10,9 @@ with st.form("diagnostico_completo"):
   st.markdown("### 🏛️ Nível 1: Governança") 
   g1 = st.select_slider("Acordo de Sócios formalizado?", options=["1", "2", "3", "4", "5"])
   st.markdown("### 🛡️ Nível 2: Blindagem Técnica") 
-    b1 = st.select_slider("Cláusulas Tag Along e Shotgun?", options=["1", "2", "3", "4", "5"])
+  b1 = st.select_slider("Cláusulas Tag Along e Shotgun?", options=["1", "2", "3", "4", "5"])
   st.markdown("### ⚖️ Reforma Tributária 2026") 
-    t1 = st.select_slider("Simulação para 2026-2033?", options=["1", "2", "3", "4", "5"])
+  t1 = st.select_slider("Simulação para 2026-2033?", options=["1", "2", "3", "4", "5"])
   enviado = st.form_submit_button("GERAR DIAGNÓSTICO")
 if enviado:
     if not nome or not empresa:
