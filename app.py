@@ -40,7 +40,13 @@ if enviado:
         st.error("Por favor, preencha seu nome e empresa para continuar.")
     else:
         st.success("Diagnóstico concluído! Clique abaixo para conversarmos.")
-        msg = f"Olá David! Sou {nome} da {empresa}. Concluí meu diagnóstico de perenidade."
+        
+        # Este bloco extrai as notas e organiza o texto para o seu celular
+        resumo = f"\n\nNOTAS DO DIAGNÓSTICO:\n- Governança: {g1}, {g2}, {g3}\n- Blindagem: {b1}\n- Reforma: {t1}, {t2}, {t3}, {t4}, {t5}, {t6}"
+        msg = f"Olá David! Sou {nome} da {empresa}. Concluí meu diagnóstico de perenidade.{resumo}"
+        
+        # Link do WhatsApp com a mensagem completa
         url_wa = f"https://api.whatsapp.com/send?phone=5531983984001&text={urllib.parse.quote(msg)}"
+        
         st.link_button("🚀 ENVIAR VIA WHATSAPP", url_wa)
         st.link_button("🔗 PERFIL LINKEDIN", "https://www.linkedin.com/in/daviddangelli/")
