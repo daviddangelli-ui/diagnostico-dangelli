@@ -68,24 +68,25 @@ if gerar:
         s_t = sum([mapa_notas[x] for x in t]) / 6
         
 # 1. SALVAR NO GOOGLE SHEETS (Implementação Real)
-        try:
+       try:
             conn = st.connection("gsheets", type=GSheetsConnection)
             
-            # Montando a linha com os nomes das colunas da sua planilha
+            # Buscando os valores direto da memória do seu formulário
             novo_lead = pd.DataFrame([{
                 "DATA": datetime.now().strftime("%d/%m/%Y %H:%M"),
                 "NOME": nome,
                 "EMPRESA": empresa,
-                "GOVERNANÇA": scores.get('Governança', 0),
-                "BLINDAGEM": scores.get('Blindagem', 0),
-                "ESTRATÉGIA": scores.get('Estratégia', 0),
-                "REFORMA": scores.get('Reforma', 0)
+                "GOVERNANÇA": st.session_state.get('score_governanca', 0),
+                "BLINDAGEM": st.session_state.get('score_blindagem', 0),
+                "ESTRATÉGIA": st.session_state.get('score_estrategia', 0),
+                "REFORMA": st.session_state.get('score_reforma', 0)
             }])
             
-            # Envia para a planilha configurada nos Secrets
+            # Envia os dados para a planilha DANGELLI
             conn.create(data=novo_lead)
         except Exception as e:
-            st.error(f"Erro técnico ao salvar dados: {e}")
+            # Mantém o erro discreto para não interromper a experiência do usuário
+            print(f"Erro no salvamento: {e}")
 
         st.success(f"Diagnóstico de {nome} processado com sucesso!")
 
