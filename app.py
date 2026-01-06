@@ -3,6 +3,7 @@ import urllib.parse
 import plotly.graph_objects as go
 import pandas as pd
 from datetime import datetime
+from streamlit_gsheets import GSheetsConnection
 
 # Configuração da página
 st.set_page_config(page_title="DANGELLI - Diagnóstico Estratégico", layout="wide")
