@@ -66,9 +66,25 @@ if gerar:
         s_e = sum([mapa_notas[x] for x in e]) / 4
         s_t = sum([mapa_notas[x] for x in t]) / 6
         
-        # 1. SALVAR NO GOOGLE SHEETS (Lógica Simbolizada)
-        # Aqui os dados seriam enviados para sua planilha via API ou st.connection
-        # st.write("✅ Dados salvos na base estratégica DANGELLI.") 
+# 1. SALVAR NO GOOGLE SHEETS (Implementação Real)
+        try:
+            conn = st.connection("gsheets", type=GSheetsConnection)
+            
+            # Montando a linha com os nomes das colunas da sua planilha
+            novo_lead = pd.DataFrame([{
+                "DATA": datetime.now().strftime("%d/%m/%Y %H:%M"),
+                "NOME": nome,
+                "EMPRESA": empresa,
+                "GOVERNANÇA": scores.get('Governança', 0),
+                "BLINDAGEM": scores.get('Blindagem', 0),
+                "ESTRATÉGIA": scores.get('Estratégia', 0),
+                "REFORMA": scores.get('Reforma', 0)
+            }])
+            
+            # Envia para a planilha configurada nos Secrets
+            conn.create(data=novo_lead)
+        except Exception as e:
+            st.error(f"Erro técnico ao salvar dados: {e}")
 
         st.success(f"Diagnóstico de {nome} processado com sucesso!")
 
