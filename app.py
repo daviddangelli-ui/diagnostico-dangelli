@@ -3,7 +3,7 @@ import urllib.parse
 
 st.set_page_config(page_title="DANGELLI - Diagnóstico Profissional", layout="wide")
 
-# CABEÇALHO DE IMPACTO (Baseado no seu Print 1)
+# CABEÇALHO DE IMPACTO
 st.markdown("""# O que garante a **perenidade** de uma média empresa em tempos de transformações profundas?""")
 st.info("""Governança e Estratégia precisam estar completamente integradas sempre na moderna visão da perenidade dos negócios. Isso torna-se mais crítico agora com a chegada da Reforma Tributária.""")
 
@@ -28,13 +28,14 @@ with st.form("diagnostico_dangelli"):
     b4 = st.select_slider("4. O Acordo inclui cláusulas complexas como Tag Along, Drag Along e Shotgun devidamente pactuadas?", options=options)
     b5 = st.select_slider("5. Existe um Protocolo Familiar instituído que define regras de entrada e saída de familiares na gestão?", options=options)
 
-    # NÍVEL 3: REFORMA TRIBUTÁRIA (Conforme image_b6f324.jpg)
+    # NÍVEL 3: REFORMA TRIBUTÁRIA (Conforme image_b6f324.jpg + Inclusão Valuation)
     st.markdown("### ⚖️ Nível 3: Reforma Tributária")
     t1 = st.select_slider("1. Sua equipe financeira já mapeou a transição para o novo modelo IVA (CBS/IBS)?", options=options)
     t2 = st.select_slider("2. O impacto da reforma na margem líquida operacional foi simulado para 2026-2033?", options=options)
     t3 = st.select_slider("3. Seus sistemas possuem rastreabilidade integral para aproveitamento imediato de créditos?", options=options)
     t4 = st.select_slider("4. Já existe uma estratégia de revisão de preços baseada na neutralidade do IVA?", options=options)
     t5 = st.select_slider("5. A empresa possui plano para monetização de créditos acumulados antes da transição?", options=options)
+    t6 = st.select_slider("6. A empresa já realizou o VALUATION para conhecer o valor do negócio e acompanha-lo durante as mudanças da Reforma Tributária?", options=options)
 
     enviado = st.form_submit_button("GERAR DIAGNÓSTICO E RECEBER CONVITE MASTERCLASS")
 
@@ -44,11 +45,11 @@ if enviado:
     else:
         st.success("Diagnóstico concluído com sucesso!")
         
-        # Consolidação das Notas para o David
+        # Consolidação das Notas para o David (incluindo t6)
         resumo = (f"\n\nNOTAS DO DIAGNÓSTICO:\n"
                   f"- Governança: {g1}, {g2}, {g3}, {g4}, {g5}\n"
                   f"- Blindagem: {b1}, {b2}, {b3}, {b4}, {b5}\n"
-                  f"- Reforma: {t1}, {t2}, {t3}, {t4}, {t5}")
+                  f"- Reforma: {t1}, {t2}, {t3}, {t4}, {t5}, {t6}")
         
         msg = f"Olá David! Sou {nome} da {empresa}. Concluí meu diagnóstico de perenidade e gostaria de receber o convite para a MasterClass.{resumo}"
         url_wa = f"https://api.whatsapp.com/send?phone=5531983984001&text={urllib.parse.quote(msg)}"
