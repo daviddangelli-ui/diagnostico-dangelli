@@ -5,123 +5,102 @@ import pandas as pd
 from datetime import datetime
 from streamlit_gsheets import GSheetsConnection
 
-# Configuração da página
-st.set_page_config(page_title="DANGELLI - Diagnóstico Estratégico", layout="wide")
+# CONFIGURAÇÃO DA PÁGINA
+st.set_page_config(page_title="DANGELLI - Diagnóstico de Maturidade", layout="centered")
 
-# CSS para o Efeito Nuvem (Blur) e Estilização
+# ESTILIZAÇÃO CSS (Efeito Blur e Botão)
 st.markdown("""
     <style>
-    .nuvem-blur {
+    .blur-container {
         filter: blur(8px);
         -webkit-filter: blur(8px);
         pointer-events: none;
         user-select: none;
     }
-    .reveal-box {
-        background-color: #1a1a1a;
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid #f39c12;
-        text-align: center;
+    .stButton>button {
+        width: 100%;
+        border-radius: 5px;
+        height: 3em;
+        background-color: #25D366;
+        color: white;
+        font-weight: bold;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# Mapeamento de Notas
-mapa_notas = {"Inexistente": 1.0, "2": 2.0, "3": 3.0, "4": 4.0, "Pleno": 5.0}
+st.title("📊 Diagnóstico de Maturidade: Reforma Tributária vs. Governança")
+st.write("Avalie os pilares da sua empresa e receba uma análise estratégica.")
 
-st.markdown("# O que garante a **perenidade** de uma média empresa?")
-st.info("Diagnóstico Integrado: Governança, Estratégia e Reforma Tributária 2026.")
+# FORMULÁRIO DE IDENTIFICAÇÃO
+with st.container():
+    nome = st.text_input("Seu Nome Completo:")
+    empresa = st.text_input("Nome da sua Empresa:")
 
-# Inicialização do estado de revelação
-if 'revelado' not in st.session_state:
-    st.session_state.revelado = False
+st.divider()
 
-with st.form("diagnostico_dangelli"):
-    nome = st.text_input("Seu Nome Completo")
-    empresa = st.text_input("Sua Empresa")
-    options = ["Inexistente", "2", "3", "4", "Pleno"]
+# PERGUNTAS DO DIAGNÓSTICO
+st.subheader("Avalie sua empresa (0 a 10)")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("### 🏛️ Nível 1: Governança")
-        g = [st.select_slider(f"G{i+1}", options=options, label_visibility="collapsed") for i in range(5)]
-        st.markdown("### 🛡️ Nível 2: Blindagem")
-        b = [st.select_slider(f"B{i+1}", options=options, label_visibility="collapsed") for i in range(6)]
+g_score = st.slider("Governança Corporativa", 0, 10, 5)
+b_score = st.slider("Blindagem Patrimonial", 0, 10, 5)
+e_score = st.slider("Estratégia Tributária", 0, 10, 5)
+r_score = st.slider("Preparação para Reforma Tributária", 0, 10, 5)
 
-    with col2:
-        st.markdown("### 🚀 Nível 3: Estratégia")
-        e = [st.select_slider(f"E{i+1}", options=options, label_visibility="collapsed") for i in range(4)]
-        st.markdown("### ⚖️ Nível 4: Reforma Tributária")
-        t = [st.select_slider(f"T{i+1}", options=options, label_visibility="collapsed") for i in range(6)]
+# SALVAR SCORES NA MEMÓRIA
+st.session_state['score_governanca'] = g_score
+st.session_state['score_blindagem'] = b_score
+st.session_state['score_estrategia'] = e_score
+st.session_state['score_reforma'] = r_score
 
-    gerar = st.form_submit_button("ANALISAR MATURIDADE DO NEGÓCIO")
-
-if gerar:
+if st.button("ANALISAR MATURIDADE"):
     if not nome or not empresa:
-        st.error("Por favor, preencha Nome e Empresa.")
+        st.error("Por favor, preencha seu nome e o nome da empresa.")
     else:
-        # Cálculos
-        s_g = sum([mapa_notas[x] for x in g]) / 5
-        s_b = sum([mapa_notas[x] for x in b]) / 6
-        s_e = sum([mapa_notas[x] for x in e]) / 4
-        s_t = sum([mapa_notas[x] for x in t]) / 6
-        
-# 1. SALVAR NO GOOGLE SHEETS (Implementação Real)
-       try:
+        # 1. SALVAR NO GOOGLE SHEETS
+        try:
             conn = st.connection("gsheets", type=GSheetsConnection)
-            
-            # Buscando os valores direto da memória do seu formulário
             novo_lead = pd.DataFrame([{
                 "DATA": datetime.now().strftime("%d/%m/%Y %H:%M"),
                 "NOME": nome,
                 "EMPRESA": empresa,
-                "GOVERNANÇA": st.session_state.get('score_governanca', 0),
-                "BLINDAGEM": st.session_state.get('score_blindagem', 0),
-                "ESTRATÉGIA": st.session_state.get('score_estrategia', 0),
-                "REFORMA": st.session_state.get('score_reforma', 0)
+                "GOVERNANÇA": g_score,
+                "BLINDAGEM": b_score,
+                "ESTRATÉGIA": e_score,
+                "REFORMA": r_score
             }])
-            
-            # Envia os dados para a planilha DANGELLI
             conn.create(data=novo_lead)
         except Exception as e:
-            # Mantém o erro discreto para não interromper a experiência do usuário
             print(f"Erro no salvamento: {e}")
 
-        st.success(f"Diagnóstico de {nome} processado com sucesso!")
+        # 2. GERAR GRÁFICO DE RADAR COM EFEITO BLUR
+        categories = ['Governança', 'Blindagem', 'Estratégia', 'Reforma']
+        values = [g_score, b_score, e_score, r_score]
+        
+        fig = go.Figure()
+        fig.add_trace(go.Scatterpolar(
+            r=values,
+            theta=categories,
+            fill='toself',
+            name='Maturidade Atual',
+            line_color='#1f77b4'
+        ))
+        fig.update_layout(
+            polar=dict(radialaxis=dict(visible=True, range=[0, 10])),
+            showlegend=False,
+            margin=dict(l=20, r=20, t=20, b=20)
+        )
 
-        # 2. ÁREA DE RESULTADOS (COM OU SEM BLUR)
-        blur_class = "" if st.session_state.revelado else "class='nuvem-blur'"
+        st.subheader("Resultado do seu Diagnóstico")
         
-        st.markdown(f"<div {blur_class}>", unsafe_allow_html=True)
-        c1, c2 = st.columns([1.5, 1])
-        with c1:
-            fig = go.Figure(data=go.Scatterpolar(
-                r=[s_g, s_b, s_e, s_t, s_g],
-                theta=['Governança','Blindagem','Estratégia','Reforma','Governança'],
-                fill='toself', line_color='#f39c12'
-            ))
-            fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 5])), showlegend=False)
-            st.plotly_chart(fig)
-        with c2:
-            st.metric("Governança", f"{s_g:.1f}/5.0")
-            st.metric("Blindagem", f"{s_b:.1f}/5.0")
-            st.metric("Estratégia", f"{s_e:.1f}/5.0")
-            st.metric("Reforma", f"{s_t:.1f}/5.0")
-        st.markdown("</div>", unsafe_allow_html=True)
+        # APLICA O EFEITO DE DESFOQUE NO GRÁFICO
+        st.markdown('<div class="blur-container">', unsafe_allow_html=True)
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        # 3. BOX DE CONVERSÃO (O GATILHO)
-        if not st.session_state.revelado:
-            st.markdown("""
-                <div class="reveal-box">
-                    <h3>🔍 SEU RESULTADO ESTÁ PRONTO!</h3>
-                    <p>Para remover a 'nuvem' e visualizar seu gráfico detalhado e scores, 
-                    confirme sua vaga na MasterClass e receba seu relatório via WhatsApp.</p>
-                </div>
-            """, unsafe_allow_html=True)
+        # 3. CHAMADA PARA AÇÃO (WHATSAPP)
+        st.warning("⚠️ Seu resultado está disponível! Para visualizar a análise detalhada e remover o desfoque, clique no botão abaixo para falar com nossa equipe.")
         
-        msg = f"Olá David! Sou {nome} da {empresa}. Concluí meu diagnóstico e quero meu relatório completo."
-        url_wa = f"https://api.whatsapp.com/send?phone=5531983984001&text={urllib.parse.quote(msg)}"
+        texto_whatsapp = f"Olá! Acabei de realizar o Diagnóstico de Maturidade.\n\n*Nome:* {nome}\n*Empresa:* {empresa}\n\nGostaria de liberar meu resultado completo e agendar uma análise."
+        link_whatsapp = f"https://wa.me/SEU_NUMERO_AQUI?text={urllib.parse.quote(texto_whatsapp)}"
         
-        if st.link_button("🚀 CONFIRMAR E REVELAR RESULTADOS", url_wa):
-             st.session_state.revelado = True
+        st.markdown(f'<a href="{link_whatsapp}" target="_blank"><button style="width:100%; height:50px; background-color:#25D366; color:white; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">🔓 LIBERAR MEU RESULTADO AGORA</button></a>', unsafe_allow_html=True)
