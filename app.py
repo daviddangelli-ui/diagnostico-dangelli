@@ -1,14 +1,40 @@
 import streamlit as st
 import urllib.parse
 import plotly.graph_objects as go
+import pandas as pd
+from datetime import datetime
 
-st.set_page_config(page_title="DANGELLI - Diagnóstico Profissional", layout="wide")
+# Configuração da página
+st.set_page_config(page_title="DANGELLI - Diagnóstico Estratégico", layout="wide")
 
-# Mapeamento de Notas para Cálculo
+# CSS para o Efeito Nuvem (Blur) e Estilização
+st.markdown("""
+    <style>
+    .nuvem-blur {
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
+        pointer-events: none;
+        user-select: none;
+    }
+    .reveal-box {
+        background-color: #1a1a1a;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #f39c12;
+        text-align: center;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Mapeamento de Notas
 mapa_notas = {"Inexistente": 1.0, "2": 2.0, "3": 3.0, "4": 4.0, "Pleno": 5.0}
 
-st.markdown("""# O que garante a **perenidade** de uma média empresa em tempos de transformações profundas?""")
-st.info("""Governança e Estratégia integradas para a Reforma Tributária 2026.""")
+st.markdown("# O que garante a **perenidade** de uma média empresa?")
+st.info("Diagnóstico Integrado: Governança, Estratégia e Reforma Tributária 2026.")
+
+# Inicialização do estado de revelação
+if 'revelado' not in st.session_state:
+    st.session_state.revelado = False
 
 with st.form("diagnostico_dangelli"):
     nome = st.text_input("Seu Nome Completo")
@@ -18,49 +44,38 @@ with st.form("diagnostico_dangelli"):
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("### 🏛️ Nível 1: Governança")
-        g1 = st.select_slider("1. Acordo de Sócios?", options=options)
-        g2 = st.select_slider("2. Plano de Sucessão?", options=options)
-        g3 = st.select_slider("3. Separação PF/PJ?", options=options)
-        g4 = st.select_slider("4. Conselho Ativo?", options=options)
-        g5 = st.select_slider("5. Decisões Colegiadas?", options=options)
-
+        g = [st.select_slider(f"G{i+1}", options=options, label_visibility="collapsed") for i in range(5)]
         st.markdown("### 🛡️ Nível 2: Blindagem")
-        b1 = st.select_slider("1. Meritocracia vs Consanguinidade?", options=options)
-        b2 = st.select_slider("2. Calendário Estratégico?", options=options)
-        b3 = st.select_slider("3. Auditoria/Alçada?", options=options)
-        b4 = st.select_slider("4. Cláusulas Tag/Drag Along?", options=options)
-        b5 = st.select_slider("5. Protocolo Familiar?", options=options)
-        b6 = st.select_slider("6. Visão clara sobre Sucessão?", options=options)
+        b = [st.select_slider(f"B{i+1}", options=options, label_visibility="collapsed") for i in range(6)]
 
     with col2:
         st.markdown("### 🚀 Nível 3: Estratégia")
-        e1 = st.select_slider("1. Visão de Expansão/Captação?", options=options)
-        e2 = st.select_slider("2. Assédio/M&A?", options=options)
-        e3 = st.select_slider("3. Conhece Variáveis de Valor?", options=options)
-        e4 = st.select_slider("4. Acompanhamento de KPIs?", options=options)
-
+        e = [st.select_slider(f"E{i+1}", options=options, label_visibility="collapsed") for i in range(4)]
         st.markdown("### ⚖️ Nível 4: Reforma Tributária")
-        t1 = st.select_slider("1. Transição IVA?", options=options)
-        t2 = st.select_slider("2. Simulação Margem 2026?", options=options)
-        t3 = st.select_slider("3. Rastreado de Créditos?", options=options)
-        t4 = st.select_slider("4. Estratégia de Preços?", options=options)
-        t5 = st.select_slider("5. Monetização de Créditos?", options=options)
-        t6 = st.select_slider("6. VALUATION e Reforma?", options=options)
+        t = [st.select_slider(f"T{i+1}", options=options, label_visibility="collapsed") for i in range(6)]
 
-    enviado = st.form_submit_button("GERAR DIAGNÓSTICO E SCORE VISUAL")
+    gerar = st.form_submit_button("ANALISAR MATURIDADE DO NEGÓCIO")
 
-if enviado:
+if gerar:
     if not nome or not empresa:
         st.error("Por favor, preencha Nome e Empresa.")
     else:
-        # Cálculo das Médias para o Gráfico
-        s_g = sum([mapa_notas[x] for x in [g1,g2,g3,g4,g5]]) / 5
-        s_b = sum([mapa_notas[x] for x in [b1,b2,b3,b4,b5,b6]]) / 6
-        s_e = sum([mapa_notas[x] for x in [e1,e2,e3,e4]]) / 4
-        s_t = sum([mapa_notas[x] for x in [t1,t2,t3,t4,t5,t6]]) / 6
-
-        st.success("Diagnóstico Concluído com Sucesso!")
+        # Cálculos
+        s_g = sum([mapa_notas[x] for x in g]) / 5
+        s_b = sum([mapa_notas[x] for x in b]) / 6
+        s_e = sum([mapa_notas[x] for x in e]) / 4
+        s_t = sum([mapa_notas[x] for x in t]) / 6
         
+        # 1. SALVAR NO GOOGLE SHEETS (Lógica Simbolizada)
+        # Aqui os dados seriam enviados para sua planilha via API ou st.connection
+        # st.write("✅ Dados salvos na base estratégica DANGELLI.") 
+
+        st.success(f"Diagnóstico de {nome} processado com sucesso!")
+
+        # 2. ÁREA DE RESULTADOS (COM OU SEM BLUR)
+        blur_class = "" if st.session_state.revelado else "class='nuvem-blur'"
+        
+        st.markdown(f"<div {blur_class}>", unsafe_allow_html=True)
         c1, c2 = st.columns([1.5, 1])
         with c1:
             fig = go.Figure(data=go.Scatterpolar(
@@ -70,26 +85,25 @@ if enviado:
             ))
             fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 5])), showlegend=False)
             st.plotly_chart(fig)
-
         with c2:
-            st.metric("Maturidade Governança", f"{s_g:.1f}/5.0")
-            st.metric("Maturidade Blindagem", f"{s_b:.1f}/5.0")
-            st.metric("Visão Estratégica", f"{s_e:.1f}/5.0")
-            st.metric("Prontidão Reforma", f"{s_t:.1f}/5.0")
+            st.metric("Governança", f"{s_g:.1f}/5.0")
+            st.metric("Blindagem", f"{s_b:.1f}/5.0")
+            st.metric("Estratégia", f"{s_e:.1f}/5.0")
+            st.metric("Reforma", f"{s_t:.1f}/5.0")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        # CONSOLIDAÇÃO DETALHADA PARA O WHATSAPP
-        resumo_notas = (
-            f"\n\n📊 DETALHES DO DIAGNÓSTICO:\n"
-            f"🏛️ GOVERNANÇA (Nota {s_g:.1f}): {g1}, {g2}, {g3}, {g4}, {g5}\n"
-            f"🛡️ BLINDAGEM (Nota {s_b:.1f}): {b1}, {b2}, {b3}, {b4}, {b5}, {b6}\n"
-            f"🚀 ESTRATÉGIA (Nota {s_e:.1f}): {e1}, {e2}, {e3}, {e4}\n"
-            f"⚖️ REFORMA (Nota {s_t:.1f}): {t1}, {t2}, {t3}, {t4}, {t5}, {t6}"
-        )
+        # 3. BOX DE CONVERSÃO (O GATILHO)
+        if not st.session_state.revelado:
+            st.markdown("""
+                <div class="reveal-box">
+                    <h3>🔍 SEU RESULTADO ESTÁ PRONTO!</h3>
+                    <p>Para remover a 'nuvem' e visualizar seu gráfico detalhado e scores, 
+                    confirme sua vaga na MasterClass e receba seu relatório via WhatsApp.</p>
+                </div>
+            """, unsafe_allow_html=True)
         
-        msg = f"Olá David! Sou {nome} da {empresa}. Concluí meu diagnóstico e quero acessar a MasterClass.{resumo_notas}"
+        msg = f"Olá David! Sou {nome} da {empresa}. Concluí meu diagnóstico e quero meu relatório completo."
         url_wa = f"https://api.whatsapp.com/send?phone=5531983984001&text={urllib.parse.quote(msg)}"
         
-        st.markdown("---")
-        st.markdown(f"### Quase lá, {nome}!")
-        st.write("Para receber o convite da MasterClass e o seu relatório detalhado, valide sua participação abaixo:")
-        st.link_button("📲 CONFIRMAR PARTICIPAÇÃO E RECEBER RELATÓRIO", url_wa)
+        if st.link_button("🚀 CONFIRMAR E REVELAR RESULTADOS", url_wa):
+             st.session_state.revelado = True
