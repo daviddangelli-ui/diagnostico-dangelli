@@ -47,13 +47,13 @@ with st.form("diagnostico_dangelli"):
         t5 = st.select_slider("5. Monetização de Créditos?", options=options)
         t6 = st.select_slider("6. VALUATION e Reforma?", options=options)
 
-    enviado = st.form_submit_button("GERAR DIAGNÓSTICO E SCORE")
+    enviado = st.form_submit_button("GERAR DIAGNÓSTICO E SCORE VISUAL")
 
 if enviado:
     if not nome or not empresa:
-        st.error("Preencha Nome e Empresa.")
+        st.error("Por favor, preencha Nome e Empresa.")
     else:
-        # Cálculo das Médias (Score 1.0 a 5.0)
+        # Cálculo das Médias para o Gráfico
         s_g = sum([mapa_notas[x] for x in [g1,g2,g3,g4,g5]]) / 5
         s_b = sum([mapa_notas[x] for x in [b1,b2,b3,b4,b5,b6]]) / 6
         s_e = sum([mapa_notas[x] for x in [e1,e2,e3,e4]]) / 4
@@ -61,9 +61,8 @@ if enviado:
 
         st.success("Diagnóstico Concluído com Sucesso!")
         
-        c1, c2 = st.columns([1, 1])
+        c1, c2 = st.columns([1.5, 1])
         with c1:
-            # Gráfico de Radar (Estilo image_6e119f.png)
             fig = go.Figure(data=go.Scatterpolar(
                 r=[s_g, s_b, s_e, s_t, s_g],
                 theta=['Governança','Blindagem','Estratégia','Reforma','Governança'],
@@ -73,11 +72,24 @@ if enviado:
             st.plotly_chart(fig)
 
         with c2:
-            st.metric("Score Governança", f"{s_g:.1f}/5.0")
-            st.metric("Score Blindagem", f"{s_b:.1f}/5.0")
-            st.metric("Score Estratégia", f"{s_e:.1f}/5.0")
-            st.metric("Score Reforma", f"{s_t:.1f}/5.0")
+            st.metric("Maturidade Governança", f"{s_g:.1f}/5.0")
+            st.metric("Maturidade Blindagem", f"{s_b:.1f}/5.0")
+            st.metric("Visão Estratégica", f"{s_e:.1f}/5.0")
+            st.metric("Prontidão Reforma", f"{s_t:.1f}/5.0")
 
-        msg = f"Olá David! Sou {nome} da {empresa}. Score: G:{s_g:.1f} B:{s_b:.1f} E:{s_e:.1f} T:{s_t:.1f}."
+        # CONSOLIDAÇÃO DETALHADA PARA O WHATSAPP
+        resumo_notas = (
+            f"\n\n📊 DETALHES DO DIAGNÓSTICO:\n"
+            f"🏛️ GOVERNANÇA (Nota {s_g:.1f}): {g1}, {g2}, {g3}, {g4}, {g5}\n"
+            f"🛡️ BLINDAGEM (Nota {s_b:.1f}): {b1}, {b2}, {b3}, {b4}, {b5}, {b6}\n"
+            f"🚀 ESTRATÉGIA (Nota {s_e:.1f}): {e1}, {e2}, {e3}, {e4}\n"
+            f"⚖️ REFORMA (Nota {s_t:.1f}): {t1}, {t2}, {t3}, {t4}, {t5}, {t6}"
+        )
+        
+        msg = f"Olá David! Sou {nome} da {empresa}. Concluí meu diagnóstico e quero acessar a MasterClass.{resumo_notas}"
         url_wa = f"https://api.whatsapp.com/send?phone=5531983984001&text={urllib.parse.quote(msg)}"
-        st.link_button("🚀 CONFIRMAR PARTICIPAÇÃO E RECEBER RELATÓRIO", url_wa)
+        
+        st.markdown("---")
+        st.markdown(f"### Quase lá, {nome}!")
+        st.write("Para receber o convite da MasterClass e o seu relatório detalhado, valide sua participação abaixo:")
+        st.link_button("📲 CONFIRMAR PARTICIPAÇÃO E RECEBER RELATÓRIO", url_wa)
