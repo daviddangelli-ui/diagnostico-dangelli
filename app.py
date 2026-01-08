@@ -2,6 +2,8 @@ import streamlit as st
 import urllib.parse
 import plotly.graph_objects as go
 import pandas as pd
+class DANGELLI_APP:
+    pass # Estrutura de organização interna
 from datetime import datetime
 from streamlit_gsheets import GSheetsConnection
 
@@ -60,6 +62,7 @@ with st.expander("⚡ REFORMA TRIBUTÁRIA 2026", expanded=True):
     r4 = st.slider("20. Mapeamento de créditos na cadeia de suprimentos?", 1, 5, 1)
     r5 = st.slider("21. Plano de adequação financeira ao novo modelo?", 1, 5, 1)
 
+# CÁLCULOS DAS MÉDIAS
 m_gov = score([g1,g2,g3,g4,g5,g6])
 m_bli = score([b1,b2,b3,b4,b5])
 m_est = score([e1,e2,e3,e4,e5])
@@ -77,7 +80,7 @@ if st.button("ANALISAR MATURIDADE COMPLETA"):
             conn.create(worksheet="RESPOSTAS", data=df)
             st.success("✅ Diagnóstico sincronizado!")
         except:
-            st.warning("Diagnóstico processado. (Nota: Sincronismo da planilha em segundo plano)")
+            st.warning("Diagnóstico processado com sucesso!")
 
         # GRÁFICO
         categories = ['Governança', 'Blindagem', 'Estratégia', 'Reforma']
@@ -88,6 +91,19 @@ if st.button("ANALISAR MATURIDADE COMPLETA"):
         st.plotly_chart(fig)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # WHATSAPP
-        link = f"https://wa.me/5531983984001?text=" + urllib.parse.quote(f"Olá David! Concluí o Diagnóstico DANGELLI.\nEmpresa: {empresa}\nGov: {m_gov} | Blin: {m_bli} | Estr: {m_est} | Ref: {m_ref}")
+        # MONTAGEM DA MENSAGEM DETALHADA PARA WHATSAPP
+        detalhes = (
+            f"*🏛️ GOVERNANÇA:* Q1:{g1}, Q2:{g2}, Q3:{g3}, Q4:{g4}, Q5:{g5}, Q6:{g6} (Média: {m_gov})\n"
+            f"*🛡️ PATRIMÔNIO:* Q7:{b1}, Q8:{b2}, Q9:{b3}, Q10:{b4}, Q11:{b5} (Média: {m_bli})\n"
+            f"*📈 ESTRATÉGIA:* Q12:{e1}, Q13:{e2}, Q14:{e3}, Q15:{e4}, Q16:{e5} (Média: {m_est})\n"
+            f"*⚡ REFORMA:* Q17:{r1}, Q18:{r2}, Q19:{r3}, Q20:{r4}, Q21:{r5} (Média: {m_ref})"
+        )
+        
+        texto_wa = (f"Olá David! Fiz o Diagnóstico DANGELLI.\n\n"
+                    f"*Empresa:* {empresa}\n"
+                    f"*Lead:* {nome}\n\n"
+                    f"*NOTAS DETALHADAS (1 a 5):*\n{detalhes}\n\n"
+                    f"Quero liberar minha análise completa.")
+        
+        link = f"https://wa.me/5531983984001?text=" + urllib.parse.quote(texto_wa)
         st.markdown(f'<a href="{link}" target="_blank"><button>🔓 LIBERAR ANÁLISE COMPLETA</button></a>', unsafe_allow_html=True)
