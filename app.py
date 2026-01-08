@@ -8,7 +8,7 @@ from streamlit_gsheets import GSheetsConnection
 # CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(page_title="DANGELLI - Diagnóstico de Maturidade", layout="centered")
 
-# ESTILIZAÇÃO CSS (Efeito Blur e Botão)
+# ESTILIZAÇÃO CSS
 st.markdown("""
     <style>
     .blur-container { filter: blur(8px); -webkit-filter: blur(8px); pointer-events: none; }
@@ -25,40 +25,53 @@ with st.container():
 
 st.divider()
 
-# 2. TODAS AS PERGUNTAS DA VERSÃO ANTERIOR
-st.subheader("Responda sobre a situação atual da sua empresa:")
+# FUNÇÃO AUXILIAR PARA PONTUAÇÃO
+def get_val(text):
+    return int(text.split('(')[-1].split(')')[0])
 
-def get_val(text): return int(text.split('(')[-1].split(')')[0])
+# 2. AS 21 PERGUNTAS DETALHADAS
+st.subheader("Avaliação Técnica de Maturidade")
 
-# GOVERNANÇA (Expandido)
+# --- GOVERNANÇA CORPORATIVA (6 Perguntas) ---
 st.markdown("### 🏛️ Governança Corporativa")
-g1 = st.radio("Possui Acordo de Sócios/Quotas?", ["Não possui (0)", "Em discussão (5)", "Sim, registrado (10)"])
-g2 = st.radio("Existe separação entre gestão e propriedade?", ["Não (0)", "Parcialmente (5)", "Sim, total (10)"])
-g3 = st.radio("Há reuniões de conselho ou diretoria mensais?", ["Não (0)", "Eventuais (5)", "Sim, sistemáticas (10)"])
+g1 = st.radio("1. Possui Acordo de Sócios/Quotas formalizado?", ["Não (0)", "Em rascunho (5)", "Sim, registrado (10)"])
+g2 = st.radio("2. Separação clara entre gestão e propriedade?", ["Não (0)", "Parcial (5)", "Total (10)"])
+g3 = st.radio("3. Reuniões de diretoria com atas?", ["Não (0)", "Eventuais (5)", "Mensais (10)"])
+g4 = st.radio("4. Possui Conselho Consultivo ou Fiscal?", ["Não (0)", "Em implantação (5)", "Sim (10)"])
+g5 = st.radio("5. Auditoria externa independente?", ["Não (0)", "Apenas interna (5)", "Sim (10)"])
+g6 = st.radio("6. Código de Conduta e Compliance?", ["Não (0)", "Em rascunho (5)", "Sim (10)"])
 
-# BLINDAGEM (Expandido)
+# --- BLINDAGEM PATRIMONIAL (5 Perguntas) ---
 st.markdown("### 🛡️ Blindagem Patrimonial")
-b1 = st.radio("O patrimônio pessoal está em nome da PJ operacional?", ["Sim (0)", "Parte dele (5)", "Não, está segregado (10)"])
-b2 = st.radio("Utiliza estruturas de Holding Patrimonial?", ["Não (0)", "Em estudo (5)", "Sim, operacional (10)"])
-b3 = st.radio("Possui seguro de responsabilidade civil para diretores?", ["Não (0)", "Em cotação (5)", "Sim (10)"])
+b1 = st.radio("7. Patrimônio pessoal separado da PJ operacional?", ["Não (0)", "Parcial (5)", "Total (10)"])
+b2 = st.radio("8. Utiliza Holding Patrimonial?", ["Não (0)", "Em estudo (5)", "Sim (10)"])
+b3 = st.radio("9. Plano de Sucessão definido?", ["Não (0)", "Informal (5)", "Documentado (10)"])
+b4 = st.radio("10. Seguro de responsabilidade (D&O)?", ["Não (0)", "Em cotação (5)", "Sim (10)"])
+b5 = st.radio("11. Doação com reserva de usufruto realizada?", ["Não (0)", "Em análise (5)", "Sim (10)"])
 
-# ESTRATÉGIA (Expandido)
+# --- ESTRATÉGIA TRIBUTÁRIA (5 Perguntas) ---
 st.markdown("### 📈 Estratégia Tributária")
-e1 = st.radio("Realiza Planejamento Tributário preventivo?", ["Não (0)", "Às vezes (5)", "Sim, anualmente (10)"])
-e2 = st.radio("Aproveita todos os benefícios fiscais do setor?", ["Não sei (0)", "Alguns (5)", "Sim, mapeados (10)"])
+e1 = st.radio("12. Planejamento Tributário anual?", ["Não (0)", "Pontual (5)", "Sim (10)"])
+e2 = st.radio("13. Revisão de créditos tributários (5 anos)?", ["Nunca (0)", "Há mais de 2 anos (5)", "Sim, constante (10)"])
+e3 = st.radio("14. Estudo de viabilidade de regime (Real x Presumido)?", ["Não (0)", "Superficial (5)", "Sim, técnico (10)"])
+e4 = st.radio("15. Gestão de passivo tributário ativa?", ["Não (0)", "Parcial (5)", "Sim (10)"])
+e5 = st.radio("16. Incentivos fiscais mapeados?", ["Não (0)", "Alguns (5)", "Sim (10)"])
 
-# REFORMA (Expandido)
+# --- REFORMA TRIBUTÁRIA (5 Perguntas) ---
 st.markdown("### ⚡ Reforma Tributária")
-r1 = st.radio("Já quantificou o aumento de carga com CBS/IBS?", ["Não (0)", "Previsão superficial (5)", "Sim, estudo completo (10)"])
-r2 = st.radio("Seu sistema ERP está pronto para o split payment?", ["Não (0)", "Em atualização (5)", "Sim (10)"])
+r1 = st.radio("17. Cálculo de impacto CBS/IBS realizado?", ["Não (0)", "Superficial (5)", "Sim (10)"])
+r2 = st.radio("18. Comitê de transição da Reforma?", ["Não (0)", "Contabilidade olha (5)", "Sim, estratégico (10)"])
+r3 = st.radio("19. Plano para o 'Split Payment'?", ["Não sei o que é (0)", "Em estudo (5)", "Sim (10)"])
+r4 = st.radio("20. Mapeamento da cadeia de fornecedores (IVA)?", ["Não (0)", "Iniciado (5)", "Sim (10)"])
+r5 = st.radio("21. Treinamento da equipa sobre o novo modelo?", ["Não (0)", "Previsto (5)", "Sim (10)"])
 
 # CÁLCULOS DAS MÉDIAS
-m_gov = (get_val(g1) + get_val(g2) + get_val(g3)) / 3
-m_bli = (get_val(b1) + get_val(b2) + get_val(b3)) / 3
-m_est = (get_val(e1) + get_val(e2)) / 2
-m_ref = (get_val(r1) + get_val(r2)) / 2
+m_gov = (get_val(g1) + get_val(g2) + get_val(g3) + get_val(g4) + get_val(g5) + get_val(g6)) / 6
+m_bli = (get_val(b1) + get_val(b2) + get_val(b3) + get_val(b4) + get_val(b5)) / 5
+m_est = (get_val(e1) + get_val(e2) + get_val(e3) + get_val(e4) + get_val(e5)) / 5
+m_ref = (get_val(r1) + get_val(r2) + get_val(r3) + get_val(r4) + get_val(r5)) / 5
 
-if st.button("ANALISAR MATURIDADE DO NEGÓCIO"):
+if st.button("ANALISAR MATURIDADE COMPLETA"):
     if not nome or not empresa:
         st.error("Por favor, preencha nome e empresa.")
     else:
@@ -74,9 +87,9 @@ if st.button("ANALISAR MATURIDADE DO NEGÓCIO"):
                 "ESTRATÉGIA": round(m_est, 1),
                 "REFORMA": round(m_ref, 1)
             }])
-            conn.create(data=novo_lead)
+            conn.create(worksheet="RESPOSTAS", data=novo_lead)
         except Exception as e:
-            print(f"Erro técnico: {e}")
+            st.error("Erro ao salvar. Verifique se a aba chama-se RESPOSTAS.")
 
         # GRÁFICO DE RADAR
         categories = ['Governança', 'Blindagem', 'Estratégia', 'Reforma']
@@ -84,21 +97,23 @@ if st.button("ANALISAR MATURIDADE DO NEGÓCIO"):
         fig.add_trace(go.Scatterpolar(r=[m_gov, m_bli, m_est, m_ref], theta=categories, fill='toself', line_color='#1f77b4'))
         fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 10])), showlegend=False)
 
-        st.subheader(f"Diagnóstico de {nome}")
+        st.subheader(f"Diagnóstico DANGELLI: {empresa}")
         st.markdown('<div class="blur-container">', unsafe_allow_html=True)
         st.plotly_chart(fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # WHATSAPP COM DETALHES DO RESULTADO
-        whatsapp_real = "5531983984001"
-        msg = (f"Olá! Acabei de realizar o Diagnóstico DANGELLI.\n\n"
-               f"*Empresa:* {empresa}\n"
-               f"*Resultados:*\n"
-               f"- Governança: {m_gov:.1f}/10\n"
-               f"- Blindagem: {m_bli:.1f}/10\n"
-               f"- Estratégia: {m_est:.1f}/10\n"
-               f"- Reforma: {m_ref:.1f}/10\n\n"
-               f"Quero liberar minha análise detalhada.")
+        st.warning("⚠️ Diagnóstico de 21 pontos concluído! Clique abaixo para remover o desfoque e receber o relatório.")
         
-        link_wa = f"https://wa.me/{whatsapp_real}?text={urllib.parse.quote(msg)}"
+        # WHATSAPP COM RESULTADOS
+        meu_whats = "5531983984001"
+        msg = (f"Olá! Fiz o Diagnóstico Completo (21 pontos).\n"
+               f"*Empresa:* {empresa}\n"
+               f"*Médias:*\n"
+               f"- Governança: {m_gov:.1f}\n"
+               f"- Blindagem: {m_bli:.1f}\n"
+               f"- Estratégia: {m_est:.1f}\n"
+               f"- Reforma: {m_ref:.1f}\n\n"
+               f"Quero agendar a minha reunião de análise.")
+        
+        link_wa = f"https://wa.me/{meu_whats}?text={urllib.parse.quote(msg)}"
         st.markdown(f'<a href="{link_wa}" target="_blank"><button>🔓 LIBERAR ANÁLISE COMPLETA</button></a>', unsafe_allow_html=True)
