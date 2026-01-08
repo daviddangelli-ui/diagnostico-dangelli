@@ -8,10 +8,10 @@ from streamlit_gsheets import GSheetsConnection
 # CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(page_title="DANGELLI - Diagnóstico de Maturidade", layout="centered")
 
-# ESTILIZAÇÃO CSS
+# ESTILIZAÇÃO CSS (Efeito Blur e Botão)
 st.markdown("""
     <style>
-    .blur-container { filter: blur(8px); -webkit-filter: blur(8px); }
+    .blur-container { filter: blur(8px); -webkit-filter: blur(8px); pointer-events: none; }
     .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #25D366; color: white; font-weight: bold; }
     </style>
     """, unsafe_allow_html=True)
@@ -25,40 +25,40 @@ with st.container():
 
 st.divider()
 
-# 2. PERGUNTAS DETALHADAS (SISTEMA DE PONTOS)
-st.subheader("Responda com sinceridade sobre sua operação atual:")
+# 2. TODAS AS PERGUNTAS DA VERSÃO ANTERIOR
+st.subheader("Responda sobre a situação atual da sua empresa:")
 
-# Bloco Governança
+def get_val(text): return int(text.split('(')[-1].split(')')[0])
+
+# GOVERNANÇA (Expandido)
 st.markdown("### 🏛️ Governança Corporativa")
-g1 = st.radio("A empresa possui acordo de sócios ou conselho consultivo?", ["Não possui (0)", "Em fase de implementação (5)", "Sim, estruturado (10)"])
-g2 = st.radio("Os processos de decisão são documentados e claros?", ["Informais (0)", "Parcialmente (5)", "Totalmente (10)"])
+g1 = st.radio("Possui Acordo de Sócios/Quotas?", ["Não possui (0)", "Em discussão (5)", "Sim, registrado (10)"])
+g2 = st.radio("Existe separação entre gestão e propriedade?", ["Não (0)", "Parcialmente (5)", "Sim, total (10)"])
+g3 = st.radio("Há reuniões de conselho ou diretoria mensais?", ["Não (0)", "Eventuais (5)", "Sim, sistemáticas (10)"])
 
-# Bloco Blindagem
+# BLINDAGEM (Expandido)
 st.markdown("### 🛡️ Blindagem Patrimonial")
-b1 = st.radio("Existe separação clara entre patrimônio físico e da pessoa jurídica?", ["Nenhuma (0)", "Iniciando separação (5)", "Totalmente segregados (10)"])
-b2 = st.radio("Possui estrutura de Holding ou proteção legal ativa?", ["Não (0)", "Em planejamento (5)", "Sim, operacional (10)"])
+b1 = st.radio("O patrimônio pessoal está em nome da PJ operacional?", ["Sim (0)", "Parte dele (5)", "Não, está segregado (10)"])
+b2 = st.radio("Utiliza estruturas de Holding Patrimonial?", ["Não (0)", "Em estudo (5)", "Sim, operacional (10)"])
+b3 = st.radio("Possui seguro de responsabilidade civil para diretores?", ["Não (0)", "Em cotação (5)", "Sim (10)"])
 
-# Bloco Estratégia
+# ESTRATÉGIA (Expandido)
 st.markdown("### 📈 Estratégia Tributária")
-e1 = st.radio("A empresa revisa créditos tributários anualmente?", ["Nunca (0)", "Às vezes (5)", "Sim, rotina anual (10)"])
-e2 = st.radio("O regime tributário atual é o mais econômico comprovadamente?", ["Não sei (0)", "Acredito que sim (5)", "Sim, validado por auditoria (10)"])
+e1 = st.radio("Realiza Planejamento Tributário preventivo?", ["Não (0)", "Às vezes (5)", "Sim, anualmente (10)"])
+e2 = st.radio("Aproveita todos os benefícios fiscais do setor?", ["Não sei (0)", "Alguns (5)", "Sim, mapeados (10)"])
 
-# Bloco Reforma
+# REFORMA (Expandido)
 st.markdown("### ⚡ Reforma Tributária")
-r1 = st.radio("A empresa já mapeou o impacto do IBS/CBS no seu setor?", ["Não (0)", "Estudando o tema (5)", "Sim, impacto calculado (10)"])
-r2 = st.radio("Existe plano de transição para o novo modelo de IVA?", ["Não (0)", "Em discussão (5)", "Sim, plano pronto (10)"])
+r1 = st.radio("Já quantificou o aumento de carga com CBS/IBS?", ["Não (0)", "Previsão superficial (5)", "Sim, estudo completo (10)"])
+r2 = st.radio("Seu sistema ERP está pronto para o split payment?", ["Não (0)", "Em atualização (5)", "Sim (10)"])
 
-# Função para extrair número do texto do radio
-def get_val(text):
-    return int(text.split('(')[-1].split(')')[0])
+# CÁLCULOS DAS MÉDIAS
+m_gov = (get_val(g1) + get_val(g2) + get_val(g3)) / 3
+m_bli = (get_val(b1) + get_val(b2) + get_val(b3)) / 3
+m_est = (get_val(e1) + get_val(e2)) / 2
+m_ref = (get_val(r1) + get_val(r2)) / 2
 
-# CÁLCULO DAS MÉDIAS
-score_gov = (get_val(g1) + get_val(g2)) / 2
-score_bli = (get_val(b1) + get_val(b2)) / 2
-score_est = (get_val(e1) + get_val(e2)) / 2
-score_ref = (get_val(r1) + get_val(r2)) / 2
-
-if st.button("ANALISAR MATURIDADE"):
+if st.button("ANALISAR MATURIDADE DO NEGÓCIO"):
     if not nome or not empresa:
         st.error("Por favor, preencha nome e empresa.")
     else:
@@ -69,33 +69,36 @@ if st.button("ANALISAR MATURIDADE"):
                 "DATA": datetime.now().strftime("%d/%m/%Y %H:%M"),
                 "NOME": nome,
                 "EMPRESA": empresa,
-                "GOVERNANÇA": score_gov,
-                "BLINDAGEM": score_bli,
-                "ESTRATÉGIA": score_est,
-                "REFORMA": score_ref
+                "GOVERNANÇA": round(m_gov, 1),
+                "BLINDAGEM": round(m_bli, 1),
+                "ESTRATÉGIA": round(m_est, 1),
+                "REFORMA": round(m_ref, 1)
             }])
             conn.create(data=novo_lead)
         except Exception as e:
-            print(f"Erro no salvamento: {e}")
+            print(f"Erro técnico: {e}")
 
         # GRÁFICO DE RADAR
         categories = ['Governança', 'Blindagem', 'Estratégia', 'Reforma']
-        values = [score_gov, score_bli, score_est, score_ref]
-        
         fig = go.Figure()
-        fig.add_trace(go.Scatterpolar(r=values, theta=categories, fill='toself', line_color='#1f77b4'))
+        fig.add_trace(go.Scatterpolar(r=[m_gov, m_bli, m_est, m_ref], theta=categories, fill='toself', line_color='#1f77b4'))
         fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 10])), showlegend=False)
 
-        st.subheader("Seu Resultado Preliminar")
+        st.subheader(f"Diagnóstico de {nome}")
         st.markdown('<div class="blur-container">', unsafe_allow_html=True)
         st.plotly_chart(fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        st.warning("⚠️ Resultado sob proteção. Clique abaixo para liberar a análise técnica completa.")
-        
-        # AJUSTE SEU WHATSAPP AQUI
+        # WHATSAPP COM DETALHES DO RESULTADO
         whatsapp_real = "5531983984001"
-        texto_whats = f"Olá! Fiz o Diagnóstico DANGELLI.\nNome: {nome}\nEmpresa: {empresa}\n\nQuero liberar meu resultado completo."
-        link_final = f"https://wa.me/{whatsapp_real}?text={urllib.parse.quote(texto_whats)}"
+        msg = (f"Olá! Acabei de realizar o Diagnóstico DANGELLI.\n\n"
+               f"*Empresa:* {empresa}\n"
+               f"*Resultados:*\n"
+               f"- Governança: {m_gov:.1f}/10\n"
+               f"- Blindagem: {m_bli:.1f}/10\n"
+               f"- Estratégia: {m_est:.1f}/10\n"
+               f"- Reforma: {m_ref:.1f}/10\n\n"
+               f"Quero liberar minha análise detalhada.")
         
-        st.markdown(f'<a href="{link_final}" target="_blank"><button>🔓 LIBERAR MEU RESULTADO AGORA</button></a>', unsafe_allow_html=True)
+        link_wa = f"https://wa.me/{whatsapp_real}?text={urllib.parse.quote(msg)}"
+        st.markdown(f'<a href="{link_wa}" target="_blank"><button>🔓 LIBERAR ANÁLISE COMPLETA</button></a>', unsafe_allow_html=True)
