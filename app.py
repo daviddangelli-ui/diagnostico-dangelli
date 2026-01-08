@@ -106,7 +106,7 @@ if st.button("ANALISAR MATURIDADE COMPLETA"):
         st.warning("⚠️ Diagnóstico concluído! Clique abaixo para liberar o relatório detalhado e remover o desfoque.")
         
         # WHATSAPP COM RESULTADOS
-        meu_whats = "55119XXXXXXXX" # <-- COLOQUE SEU NÚMERO AQUI
+        meu_whats = "5531983984001"
         msg = (f"Olá! Concluí o Diagnóstico de Maturidade (21 Pontos).\n"
                f"*Empresa:* {empresa}\n"
                f"*Médias Apuradas:*\n"
