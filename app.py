@@ -7,13 +7,11 @@ st.set_page_config(page_title="Diagnóstico de Maturidade DANGELLI", layout="wid
 
 # Título e Descrição
 st.title("🏛️ Diagnóstico de Maturidade: Reforma Tributária vs. Governança")
-st.markdown("""
-Este diagnóstico avalia a prontidão da sua empresa para os desafios de 2026 e sua solidez estrutural.
-""")
+st.markdown("Este diagnóstico avalia a prontidão da sua empresa para os desafios de 2026 e sua solidez estrutural.")
 
 # --- INÍCIO DO FORMULÁRIO ---
 with st.form("diagnostico_form"):
-    # Dados do Lead no Início
+    # Dados do Lead no Início (Identificação)
     st.subheader("📋 Identificação")
     nome = st.text_input("Seu Nome Completo:")
     empresa = st.text_input("Nome da sua Empresa:")
@@ -51,7 +49,7 @@ with st.form("diagnostico_form"):
     q20 = st.slider("20. Os contratos de longo prazo possuem cláusulas de revisão tributária?", 1, 5, 1)
     q21 = st.slider("21. A empresa participa de comitês ou consultorias sobre a transição?", 1, 5, 1)
     
-    submitted = st.form_submit_button("🚀 LIBERAR ANÁLISE COMPLETA")
+    submitted = st.form_submit_button("📊 GERAR GRÁFICO DE MATURIDADE")
 
 if submitted:
     if nome and empresa:
@@ -61,7 +59,7 @@ if submitted:
         m_estrat = (q12+q13+q14+q15+q16)/5
         m_reforma = (q17+q18+q19+q20+q21)/5
         
-        # Exibição do Gráfico Primeiro
+        # Gráfico
         df_radar = pd.DataFrame({
             'Pilar': ['Governança', 'Blindagem', 'Estratégia', 'Reforma 2026'],
             'Nível': [m_gov, m_blind, m_estrat, m_reforma]
@@ -69,25 +67,25 @@ if submitted:
         fig = px.line_polar(df_radar, r='Nível', theta='Pilar', line_close=True, range_r=[0,5])
         st.plotly_chart(fig)
         
-        # 1. BOTÃO DE NOTIFICAÇÃO (Prioridade)
-        texto_whats = f"Diagnóstico DANGELLI: {nome} (Empresa: {empresa}) - Médias: Gov: {m_gov:.1f}, Blind: {m_blind:.1f}, Estrat: {m_estrat:.1f}, Ref: {m_reforma:.1f}. Detalhes: Q1:{q1}, Q2:{q2}, Q3:{q3}, Q4:{q4}, Q5:{q5}, Q6:{q6}, Q7:{q7}, Q8:{q8}, Q9:{q9}, Q10:{q10}, Q11:{q11}, Q12:{q12}, Q13:{q13}, Q14:{q14}, Q15:{q15}, Q16:{q16}, Q17:{q17}, Q18:{q18}, Q19:{q19}, Q20:{q20}, Q21:{q21}"
-        link_whats = f"https://wa.me/5511974411211?text={texto_whats.replace(' ', '%20')}"
+        # --- BLOCO DE ENVIO E NOTIFICAÇÃO ---
+        st.warning("⚠️ **ÚLTIMO PASSO:** Clique no botão abaixo para processar seus resultados e enviar para a central de análise DANGELLI.")
         
-        st.warning("⚠️ **ATENÇÃO:** Para receber o seu relatório detalhado, clique no botão abaixo para validar seus dados com nosso consultor:")
-        st.markdown(f'### [📲 CLIQUE AQUI PARA NOTIFICAR O CONSULTOR NO WHATSAPP]({link_whats})')
+        # Texto para WhatsApp com NOME e EMPRESA incluídos explicitamente
+        msg_whats = f"NOVO DIAGNÓSTICO DANGELLI%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A%0A📊 Médias:%0AGovernança: {m_gov:.1f}%0ABlindagem: {m_blind:.1f}%0AEstratégia: {m_estrat:.1f}%0AReforma: {m_reforma:.1f}%0A%0A📝 Respostas: Q1:{q1}, Q2:{q2}, Q3:{q3}, Q4:{q4}, Q5:{q5}, Q6:{q6}, Q7:{q7}, Q8:{q8}, Q9:{q9}, Q10:{q10}, Q11:{q11}, Q12:{q12}, Q13:{q13}, Q14:{q14}, Q15:{q15}, Q16:{q16}, Q17:{q17}, Q18:{q18}, Q19:{q19}, Q20:{q20}, Q21:{q21}"
+        link_whats = f"https://wa.me/5511974411211?text={msg_whats}"
+        
+        st.markdown(f'## [🚀 CLIQUE AQUI PARA CONCLUIR E ENVIAR DIAGNÓSTICO]({link_whats})')
         
         st.divider()
         
-        # 2. INFORMAÇÃO DE RETORNO E MASTER CLASS (Conclusão)
-        st.success(f"Análise concluída com sucesso, {nome}!")
+        # Informação sobre o Pós-Envio
+        st.success(f"Gráfico gerado para {nome}!")
         st.info(f"""
-        **O que acontece agora?**
-        * Nossa central técnica processará o detalhamento do diagnóstico da **{empresa}**.
-        * A equipe **DANGELLI** entrará em contato em breve para apresentar a análise de riscos.
-        * Você receberá um convite exclusivo para nossa **Master Class sobre Governança e Reforma Tributária**.
-        
-        Aguarde nosso contato via WhatsApp ou E-mail.
+        **O que acontece após você clicar em ENVIAR?**
+        1. Nossa central técnica processará o detalhamento deste diagnóstico para a **{empresa}**.
+        2. Um consultor da equipe **DANGELLI** entrará em contato para agendar sua devolutiva.
+        3. Você receberá o convite oficial para nossa **Master Class sobre Governança e Reforma Tributária**.
         """)
         
     else:
-        st.error("Por favor, preencha seu nome e o nome da empresa no topo da página.")
+        st.error("Por favor, preencha seu Nome e sua Empresa no início do formulário para gerar a análise.")
