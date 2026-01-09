@@ -7,7 +7,6 @@ st.set_page_config(page_title="Diagnóstico de Maturidade DANGELLI", layout="wid
 
 # Título
 st.title("🏛️ Diagnóstico de Maturidade: Reforma Tributária vs. Governança")
-st.markdown("Este diagnóstico avalia a prontidão da sua empresa para os desafios de 2026 e sua solidez estrutural.")
 
 # --- FORMULÁRIO ---
 with st.form("diagnostico_form"):
@@ -20,35 +19,35 @@ with st.form("diagnostico_form"):
     
     # Pilares (VALOR INICIAL 1)
     st.info("Pilar 1: Governança e Longevidade")
-    q1 = st.slider("1. Existe um Acordo de Sócios formalizado e atualizado?", 1, 5, 1)
+    q1 = st.slider("1. Existe um Acordo de Sócios formalizado?", 1, 5, 1)
     q2 = st.slider("2. As reuniões de diretoria são formalizadas em atas?", 1, 5, 1)
-    q3 = st.slider("3. Há um plano de sucessão definido para os cargos-chave?", 1, 5, 1)
-    q4 = st.slider("4. O patrimônio pessoal dos sócios está separado do patrimônio da empresa?", 1, 5, 1)
-    q5 = st.slider("5. Existe um conselho consultivo ou diretoria independente?", 1, 5, 1)
-    q6 = st.slider("6. O Código de Ética e Conduta é conhecido por todos?", 1, 5, 1)
+    q3 = st.slider("3. Há um plano de sucessão definido?", 1, 5, 1)
+    q4 = st.slider("4. Patrimônio pessoal separado do da empresa?", 1, 5, 1)
+    q5 = st.slider("5. Existe conselho consultivo independente?", 1, 5, 1)
+    q6 = st.slider("6. O Código de Ética é conhecido por todos?", 1, 5, 1)
     
     st.info("Pilar 2: Blindagem e Proteção Patrimonial")
-    q7 = st.slider("7. A empresa possui holding patrimonial constituída?", 1, 5, 1)
-    q8 = st.slider("8. Os ativos operacionais estão protegidos contra riscos cíveis/trabalhistas?", 1, 5, 1)
-    q9 = st.slider("9. Há seguro de responsabilidade para diretores (D&O)?", 1, 5, 1)
-    q10 = st.slider("10. A estrutura de capital é otimizada para proteção de ativos?", 1, 5, 1)
-    q11 = st.slider("11. Existem cláusulas de inalienabilidade e impenhorabilidade nos bens principais?", 1, 5, 1)
+    q7 = st.slider("7. Possui holding patrimonial constituída?", 1, 5, 1)
+    q8 = st.slider("8. Ativos protegidos contra riscos cíveis?", 1, 5, 1)
+    q9 = st.slider("9. Há seguro D&O para diretores?", 1, 5, 1)
+    q10 = st.slider("10. Estrutura de capital otimizada?", 1, 5, 1)
+    q11 = st.slider("11. Cláusulas de impenhorabilidade nos bens?", 1, 5, 1)
     
     st.info("Pilar 3: Estratégia e Valuation")
-    q12 = st.slider("12. A empresa possui um planejamento estratégico para os próximos 5 anos?", 1, 5, 1)
-    q13 = st.slider("13. O EBITDA é monitorado mensalmente com metas claras?", 1, 5, 1)
-    q14 = st.slider("14. Já foi realizado um estudo de Valuation profissional nos últimos 2 anos?", 1, 5, 1)
-    q15 = st.slider("15. A empresa possui auditoria externa independente?", 1, 5, 1)
-    q16 = st.slider("16. Os processos internos são mapeados e certificados?", 1, 5, 1)
+    q12 = st.slider("12. Possui planejamento estratégico (5 anos)?", 1, 5, 1)
+    q13 = st.slider("13. EBITDA monitorado mensalmente?", 1, 5, 1)
+    q14 = st.slider("14. Fez Valuation nos últimos 2 anos?", 1, 5, 1)
+    q15 = st.slider("15. Possui auditoria independente?", 1, 5, 1)
+    q16 = st.slider("16. Processos internos mapeados?", 1, 5, 1)
     
     st.info("Pilar 4: Prontidão para a Reforma Tributária 2026")
-    q17 = st.slider("17. A empresa já mapeou o impacto do IBS/CBS no seu fluxo de caixa?", 1, 5, 1)
-    q18 = st.slider("18. O setor contábil já está treinado para o novo modelo de créditos do IVA?", 1, 5, 1)
-    q19 = st.slider("19. Existe estratégia para lidar com o Split Payment (retenção automática)?", 1, 5, 1)
-    q20 = st.slider("20. Os contratos de longo prazo possuem cláusulas de revisão tributária?", 1, 5, 1)
-    q21 = st.slider("21. A empresa participa de comitês ou consultorias sobre a transição?", 1, 5, 1)
+    q17 = st.slider("17. Mapeou impacto do IBS/CBS no caixa?", 1, 5, 1)
+    q18 = st.slider("18. Setor contábil treinado para IVA?", 1, 5, 1)
+    q19 = st.slider("19. Estratégia para o Split Payment?", 1, 5, 1)
+    q20 = st.slider("20. Cláusulas de revisão tributária em contratos?", 1, 5, 1)
+    q21 = st.slider("21. Participa de comitês sobre a transição?", 1, 5, 1)
     
-    submitted = st.form_submit_button("📊 GERAR GRÁFICO DE MATURIDADE")
+    submitted = st.form_submit_button("📊 GERAR MEU GRÁFICO")
 
 if submitted:
     if nome and empresa:
@@ -65,23 +64,23 @@ if submitted:
         fig = px.line_polar(df_radar, r='Nível', theta='Pilar', line_close=True, range_r=[0,5])
         st.plotly_chart(fig)
         
-        # --- BLOCO DE CONCLUSÃO ---
-        st.warning("⚠️ **ÚLTIMO PASSO:** Clique abaixo para enviar seus dados à central DANGELLI e validar sua análise.")
+        # --- BLOCO FINAL ---
+        st.warning("⚠️ **ÚLTIMO PASSO OBRIGATÓRIO:**")
         
-        # Montagem da URL (Limpando para o WhatsApp ler corretamente)
+        # Link do WhatsApp formatado sem caracteres especiais perigosos
         msg = f"NOVO DIAGNÓSTICO DANGELLI%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A%0A📊 Médias:%0AGov: {m_gov:.1f}%0ABlind: {m_blind:.1f}%0AEstrat: {m_estrat:.1f}%0ARef: {m_reforma:.1f}%0A%0A📝 Respostas: Q1:{q1}, Q2:{q2}, Q3:{q3}, Q4:{q4}, Q5:{q5}, Q6:{q6}, Q7:{q7}, Q8:{q8}, Q9:{q9}, Q10:{q10}, Q11:{q11}, Q12:{q12}, Q13:{q13}, Q14:{q14}, Q15:{q15}, Q16:{q16}, Q17:{q17}, Q18:{q18}, Q19:{q19}, Q20:{q20}, Q21:{q21}"
-        link = f"https://wa.me/5511974411211?text={msg}"
+        link_final = f"https://wa.me/5511974411211?text={msg}"
         
-        # Botão centralizado e limpo
-        st.markdown(f"""<a href="{link}" target="_blank"><button style="width:100%; border-radius:10px; background-color:#25D366; color:white; padding:15px; border:none; font-weight:bold; cursor:pointer;">🚀 CLIQUE AQUI PARA CONCLUIR E ENVIAR DIAGNÓSTICO</button></a>""", unsafe_allow_stdio=True, unsafe_allow_html=True)
+        # Botão link padrão (seguro contra TypeError)
+        st.link_button("🚀 CLIQUE AQUI PARA CONCLUIR E ENVIAR DIAGNÓSTICO", link_final, use_container_width=True)
         
         st.divider()
-        st.success(f"Gráfico gerado com sucesso para {nome}!")
+        st.success(f"Análise processada para {nome}!")
         st.info(f"""
-        **O que acontece após você clicar em ENVIAR?**
-        1. Processaremos o detalhamento deste diagnóstico para a **{empresa}**.
-        2. Um consultor entrará em contato para agendar sua devolutiva técnica.
-        3. Você receberá o convite para nossa **Master Class sobre Governança e Reforma Tributária**.
+        **O que acontece após você clicar no botão de envio acima?**
+        1. Seus dados chegam à nossa central técnica para análise detalhada da **{empresa}**.
+        2. Um consultor da **DANGELLI** entrará em contato para sua devolutiva.
+        3. Você receberá o convite para nossa **Master Class sobre Governança**.
         """)
     else:
-        st.error("Por favor, preencha Nome e Empresa no início do formulário.")
+        st.error("Por favor, preencha o Nome e a Empresa no topo.")
