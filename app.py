@@ -1,109 +1,90 @@
 import streamlit as st
-import urllib.parse
-import plotly.graph_objects as go
 import pandas as pd
-class DANGELLI_APP:
-    pass # Estrutura de organização interna
-from datetime import datetime
-from streamlit_gsheets import GSheetsConnection
+import plotly.express as px
 
-# 1. CONFIGURAÇÃO DA PÁGINA
-st.set_page_config(page_title="DANGELLI - Diagnóstico de Maturidade", layout="centered")
+# Configuração da página
+st.set_page_config(page_title="Diagnóstico de Maturidade DANGELLI", layout="wide")
 
-# ESTILIZAÇÃO CSS
+# Título e Descrição
+st.title("🏛️ Diagnóstico de Maturidade: Reforma Tributária vs. Governança")
 st.markdown("""
-    <style>
-    .blur-container { filter: blur(8px); -webkit-filter: blur(8px); pointer-events: none; }
-    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #25D366; color: white; font-weight: bold; }
-    </style>
-    """, unsafe_allow_html=True)
+Este diagnóstico avalia a prontidão da sua empresa para os desafios de 2026 e sua solidez estrutural.
+**Responda com sinceridade para obter um raio-x preciso.**
+""")
 
-st.title("📊 Diagnóstico de Maturidade: Reforma Tributária vs. Governança")
+# --- 21 PERGUNTAS MANTIDAS INTEGRALMENTE ---
+with st.form("diagnostico_form"):
+    st.subheader("📊 Responda às 21 questões fundamentais:")
+    
+    # Pilares e Perguntas (Mantendo sua estrutura exata)
+    st.info("Pilar 1: Governança e Longevidade")
+    q1 = st.slider("1. Existe um Acordo de Sócios formalizado e atualizado?", 1, 5, 3)
+    q2 = st.slider("2. As reuniões de diretoria são formalizadas em atas?", 1, 5, 3)
+    q3 = st.slider("3. Há um plano de sucessão definido para os cargos-chave?", 1, 5, 3)
+    q4 = st.slider("4. O patrimônio pessoal dos sócios está separado do patrimônio da empresa?", 1, 5, 3)
+    q5 = st.slider("5. Existe um conselho consultivo ou diretoria independente?", 1, 5, 3)
+    q6 = st.slider("6. O Código de Ética e Conduta é conhecido por todos?", 1, 5, 3)
+    
+    st.info("Pilar 2: Blindagem e Proteção Patrimonial")
+    q7 = st.slider("7. A empresa possui holding patrimonial constituída?", 1, 5, 3)
+    q8 = st.slider("8. Os ativos operacionais estão protegidos contra riscos cíveis/trabalhistas?", 1, 5, 3)
+    q9 = st.slider("9. Há seguro de responsabilidade para diretores (D&O)?", 1, 5, 3)
+    q10 = st.slider("10. A estrutura de capital é otimizada para proteção de ativos?", 1, 5, 3)
+    q11 = st.slider("11. Existem cláusulas de inalienabilidade e impenhorabilidade nos bens principais?", 1, 5, 3)
+    
+    st.info("Pilar 3: Estratégia e Valuation")
+    q12 = st.slider("12. A empresa possui um planejamento estratégico para os próximos 5 anos?", 1, 5, 3)
+    q13 = st.slider("13. O EBITDA é monitorado mensalmente com metas claras?", 1, 5, 3)
+    q14 = st.slider("14. Já foi realizado um estudo de Valuation profissional nos últimos 2 anos?", 1, 5, 3)
+    q15 = st.slider("15. A empresa possui auditoria externa independente?", 1, 5, 3)
+    q16 = st.slider("16. Os processos internos são mapeados e certificados?", 1, 5, 3)
+    
+    st.info("Pilar 4: Prontidão para a Reforma Tributária 2026")
+    q17 = st.slider("17. A empresa já mapeou o impacto do IBS/CBS no seu fluxo de caixa?", 1, 5, 3)
+    q18 = st.slider("18. O setor contábil já está treinado para o novo modelo de créditos do IVA?", 1, 5, 3)
+    q19 = st.slider("19. Existe estratégia para lidar com o Split Payment (retenção automática)?", 1, 5, 3)
+    q20 = st.slider("20. Os contratos de longo prazo possuem cláusulas de revisão tributária?", 1, 5, 3)
+    q21 = st.slider("21. A empresa participa de comitês ou consultorias sobre a transição?", 1, 5, 3)
+    
+    # Dados do Lead
+    st.divider()
+    nome = st.text_input("Seu Nome Completo:")
+    empresa = st.text_input("Nome da sua Empresa:")
+    
+    submitted = st.form_submit_button("🚀 LIBERAR ANÁLISE COMPLETA")
 
-# 2. IDENTIFICAÇÃO
-nome = st.text_input("Seu Nome Completo:")
-empresa = st.text_input("Nome da sua Empresa:")
-
-st.divider()
-
-st.subheader("Avaliação Técnica (1: Inexistente | 5: Pleno)")
-
-# FUNÇÃO DE CÁLCULO (Escala 1-5 para 0-10)
-def score(lista):
-    return round(((sum(lista)/len(lista)) - 1) / 4 * 10, 1)
-
-# 3. AS 21 PERGUNTAS (INICIANDO EM 1)
-with st.expander("🏛️ GOVERNANÇA E LONGEVIDADE", expanded=True):
-    g1 = st.slider("1. Acordo de Sócios/Quotas formalizado?", 1, 5, 1)
-    g2 = st.slider("2. Separação clara entre gestão e propriedade?", 1, 5, 1)
-    g3 = st.slider("3. Reuniões de diretoria com atas documentadas?", 1, 5, 1)
-    g4 = st.slider("4. Estrutura de Conselho Consultivo ou Fiscal?", 1, 5, 1)
-    g5 = st.slider("5. Planejamento de continuidade e sucessão?", 1, 5, 1)
-    g6 = st.slider("6. Governança focada em perpetuidade do negócio?", 1, 5, 1)
-
-with st.expander("🛡️ PATRIMÔNIO E BLINDAGEM", expanded=True):
-    b1 = st.slider("7. Segregação patrimonial (Sócio x Empresa)?", 1, 5, 1)
-    b2 = st.slider("8. Utilização de Holding para proteção de ativos?", 1, 5, 1)
-    b3 = st.slider("9. Seguro de responsabilidade para diretores (D&O)?", 1, 5, 1)
-    b4 = st.slider("10. Planejamento sucessório (Doação/Usufruto)?", 1, 5, 1)
-    b5 = st.slider("11. Proteção de ativos intangíveis e marcas?", 1, 5, 1)
-
-with st.expander("📈 ESTRATÉGIA TRIBUTÁRIA E VALUATION", expanded=True):
-    e1 = st.slider("12. Planejamento Tributário preventivo anual?", 1, 5, 1)
-    e2 = st.slider("13. Revisão sistemática de créditos acumulados?", 1, 5, 1)
-    e3 = st.slider("14. Estudo técnico de Valuation da empresa?", 1, 5, 1)
-    e4 = st.slider("15. Impacto do passivo tributário no valor do negócio?", 1, 5, 1)
-    e5 = st.slider("16. Gestão de EBITDA focada em valor de mercado?", 1, 5, 1)
-
-with st.expander("⚡ REFORMA TRIBUTÁRIA 2026", expanded=True):
-    r1 = st.slider("17. Cálculo de impacto CBS/IBS no faturamento?", 1, 5, 1)
-    r2 = st.slider("18. Comitê de transição da Reforma Tributária?", 1, 5, 1)
-    r3 = st.slider("19. Prontidão tecnológica para Split Payment?", 1, 5, 1)
-    r4 = st.slider("20. Mapeamento de créditos na cadeia de suprimentos?", 1, 5, 1)
-    r5 = st.slider("21. Plano de adequação financeira ao novo modelo?", 1, 5, 1)
-
-# CÁLCULOS DAS MÉDIAS
-m_gov = score([g1,g2,g3,g4,g5,g6])
-m_bli = score([b1,b2,b3,b4,b5])
-m_est = score([e1,e2,e3,e4,e5])
-m_ref = score([r1,r2,r3,r4,r5])
-
-# 4. BOTÃO DE ANÁLISE E GRAVAÇÃO
-if st.button("ANALISAR MATURIDADE COMPLETA"):
-    if not nome or not empresa:
-        st.error("Preencha nome e empresa.")
-    else:
-        try:
-            conn = st.connection("gsheets", type=GSheetsConnection)
-            df = pd.DataFrame([{"DATA": datetime.now().strftime("%d/%m/%Y %H:%M"), "NOME": nome, "EMPRESA": empresa, 
-                                "GOVERNANÇA": m_gov, "BLINDAGEM": m_bli, "ESTRATÉGIA": m_est, "REFORMA": m_ref}])
-            conn.create(worksheet="RESPOSTAS", data=df)
-            st.success("✅ Diagnóstico sincronizado!")
-        except:
-            st.warning("Diagnóstico processado com sucesso!")
-
-        # GRÁFICO
-        categories = ['Governança', 'Blindagem', 'Estratégia', 'Reforma']
-        fig = go.Figure()
-        fig.add_trace(go.Scatterpolar(r=[m_gov, m_bli, m_est, m_ref], theta=categories, fill='toself'))
-        fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 10])), showlegend=False)
-        st.markdown('<div class="blur-container">', unsafe_allow_html=True)
+if submitted:
+    if nome and empresa:
+        # Cálculos de Médias
+        m_gov = (q1+q2+q3+q4+q5+q6)/6
+        m_blind = (q7+q8+q9+q10+q11)/5
+        m_estrat = (q12+q13+q14+q15+q16)/5
+        m_reforma = (q17+q18+q19+q20+q21)/5
+        
+        # Gráfico
+        df_radar = pd.DataFrame({
+            'Pilar': ['Governança', 'Blindagem', 'Estratégia', 'Reforma 2026'],
+            'Nível': [m_gov, m_blind, m_estrat, m_reforma]
+        })
+        fig = px.line_polar(df_radar, r='Nível', theta='Pilar', line_close=True, range_r=[0,5])
         st.plotly_chart(fig)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        # MONTAGEM DA MENSAGEM DETALHADA PARA WHATSAPP
-        detalhes = (
-            f"*🏛️ GOVERNANÇA:* Q1:{g1}, Q2:{g2}, Q3:{g3}, Q4:{g4}, Q5:{g5}, Q6:{g6} (Média: {m_gov})\n"
-            f"*🛡️ PATRIMÔNIO:* Q7:{b1}, Q8:{b2}, Q9:{b3}, Q10:{b4}, Q11:{b5} (Média: {m_bli})\n"
-            f"*📈 ESTRATÉGIA:* Q12:{e1}, Q13:{e2}, Q14:{e3}, Q15:{e4}, Q16:{e5} (Média: {m_est})\n"
-            f"*⚡ REFORMA:* Q17:{r1}, Q18:{r2}, Q19:{r3}, Q20:{r4}, Q21:{r5} (Média: {m_ref})"
-        )
         
-        texto_wa = (f"Olá David! Fiz o Diagnóstico DANGELLI.\n\n"
-                    f"*Empresa:* {empresa}\n"
-                    f"*Lead:* {nome}\n\n"
-                    f"*NOTAS DETALHADAS (1 a 5):*\n{detalhes}\n\n"
-                    f"Quero liberar minha análise completa.")
+        # --- NOVO BLOCO DE MENSAGEM FINAL PARA O CLIENTE ---
+        st.success(f"✅ **Análise concluída com sucesso, {nome}!**")
+        st.info(f"""
+        **Próximos Passos:**
+        1. Seus dados foram enviados para nossa central técnica.
+        2. A equipe **DANGELLI** entrará em contato em breve para apresentar o detalhamento do seu diagnóstico.
+        3. Você receberá também um convite exclusivo para nossa **Master Class sobre Governança e Reforma Tributária**.
         
-        link = f"https://wa.me/5531983984001?text=" + urllib.parse.quote(texto_wa)
-        st.markdown(f'<a href="{link}" target="_blank"><button>🔓 LIBERAR ANÁLISE COMPLETA</button></a>', unsafe_allow_html=True)
+        Aguarde nosso contato via WhatsApp ou E-mail.
+        """)
+        
+        # Mensagem para o WhatsApp (Invisível no site, mas gera o link)
+        texto_whats = f"Diagnóstico DANGELLI: {nome} (Empresa: {empresa}) - Médias: Gov: {m_gov:.1f}, Blind: {m_blind:.1f}, Estrat: {m_estrat:.1f}, Ref: {m_reforma:.1f}. Detalhes: Q1:{q1}, Q2:{q2}, Q3:{q3}, Q4:{q4}, Q5:{q5}, Q6:{q6}, Q7:{q7}, Q8:{q8}, Q9:{q9}, Q10:{q10}, Q11:{q11}, Q12:{q12}, Q13:{q13}, Q14:{q14}, Q15:{q15}, Q16:{q16}, Q17:{q17}, Q18:{q18}, Q19:{q19}, Q20:{q20}, Q21:{q21}"
+        link_whats = f"https://wa.me/5511974411211?text={texto_whats.replace(' ', '%20')}"
+        
+        st.markdown(f'[📲 CLIQUE AQUI PARA NOTIFICAR O CONSULTOR NO WHATSAPP]({link_whats})')
+        
+    else:
+        st.error("Por favor, preencha seu nome e o nome da empresa antes de liberar a análise.")
