@@ -9,14 +9,19 @@ st.set_page_config(page_title="Diagnóstico de Maturidade DANGELLI", layout="wid
 st.title("🏛️ Diagnóstico de Maturidade: Reforma Tributária vs. Governança")
 st.markdown("""
 Este diagnóstico avalia a prontidão da sua empresa para os desafios de 2026 e sua solidez estrutural.
-**Responda com sinceridade para obter um raio-x preciso.**
 """)
 
-# --- 21 PERGUNTAS MANTIDAS INTEGRALMENTE ---
+# --- INÍCIO DO FORMULÁRIO ---
 with st.form("diagnostico_form"):
-    st.subheader("📊 Responda às 21 questões fundamentais:")
+    # Dados do Lead no Início
+    st.subheader("📋 Identificação")
+    nome = st.text_input("Seu Nome Completo:")
+    empresa = st.text_input("Nome da sua Empresa:")
     
-    # Pilares e Perguntas (Mantendo sua estrutura exata)
+    st.divider()
+    st.subheader("📊 Responda às 21 questões fundamentais (Nível 1 a 5):")
+    
+    # Pilares e Perguntas com valor inicial 1
     st.info("Pilar 1: Governança e Longevidade")
     q1 = st.slider("1. Existe um Acordo de Sócios formalizado e atualizado?", 1, 5, 1)
     q2 = st.slider("2. As reuniões de diretoria são formalizadas em atas?", 1, 5, 1)
@@ -46,11 +51,6 @@ with st.form("diagnostico_form"):
     q20 = st.slider("20. Os contratos de longo prazo possuem cláusulas de revisão tributária?", 1, 5, 1)
     q21 = st.slider("21. A empresa participa de comitês ou consultorias sobre a transição?", 1, 5, 1)
     
-    # Dados do Lead
-    st.divider()
-    nome = st.text_input("Seu Nome Completo:")
-    empresa = st.text_input("Nome da sua Empresa:")
-    
     submitted = st.form_submit_button("🚀 LIBERAR ANÁLISE COMPLETA")
 
 if submitted:
@@ -61,7 +61,7 @@ if submitted:
         m_estrat = (q12+q13+q14+q15+q16)/5
         m_reforma = (q17+q18+q19+q20+q21)/5
         
-        # Gráfico
+        # Exibição do Gráfico Primeiro
         df_radar = pd.DataFrame({
             'Pilar': ['Governança', 'Blindagem', 'Estratégia', 'Reforma 2026'],
             'Nível': [m_gov, m_blind, m_estrat, m_reforma]
@@ -69,22 +69,25 @@ if submitted:
         fig = px.line_polar(df_radar, r='Nível', theta='Pilar', line_close=True, range_r=[0,5])
         st.plotly_chart(fig)
         
-        # --- NOVO BLOCO DE MENSAGEM FINAL PARA O CLIENTE ---
-        st.success(f"✅ **Análise concluída com sucesso, {nome}!**")
+        # 1. BOTÃO DE NOTIFICAÇÃO (Prioridade)
+        texto_whats = f"Diagnóstico DANGELLI: {nome} (Empresa: {empresa}) - Médias: Gov: {m_gov:.1f}, Blind: {m_blind:.1f}, Estrat: {m_estrat:.1f}, Ref: {m_reforma:.1f}. Detalhes: Q1:{q1}, Q2:{q2}, Q3:{q3}, Q4:{q4}, Q5:{q5}, Q6:{q6}, Q7:{q7}, Q8:{q8}, Q9:{q9}, Q10:{q10}, Q11:{q11}, Q12:{q12}, Q13:{q13}, Q14:{q14}, Q15:{q15}, Q16:{q16}, Q17:{q17}, Q18:{q18}, Q19:{q19}, Q20:{q20}, Q21:{q21}"
+        link_whats = f"https://wa.me/5511974411211?text={texto_whats.replace(' ', '%20')}"
+        
+        st.warning("⚠️ **ATENÇÃO:** Para receber o seu relatório detalhado, clique no botão abaixo para validar seus dados com nosso consultor:")
+        st.markdown(f'### [📲 CLIQUE AQUI PARA NOTIFICAR O CONSULTOR NO WHATSAPP]({link_whats})')
+        
+        st.divider()
+        
+        # 2. INFORMAÇÃO DE RETORNO E MASTER CLASS (Conclusão)
+        st.success(f"Análise concluída com sucesso, {nome}!")
         st.info(f"""
-        **Próximos Passos:**
-        1. Seus dados foram enviados para nossa central técnica.
-        2. A equipe **DANGELLI** entrará em contato em breve para apresentar o detalhamento do seu diagnóstico.
-        3. Você receberá também um convite exclusivo para nossa **Master Class sobre Governança e Reforma Tributária**.
+        **O que acontece agora?**
+        * Nossa central técnica processará o detalhamento do diagnóstico da **{empresa}**.
+        * A equipe **DANGELLI** entrará em contato em breve para apresentar a análise de riscos.
+        * Você receberá um convite exclusivo para nossa **Master Class sobre Governança e Reforma Tributária**.
         
         Aguarde nosso contato via WhatsApp ou E-mail.
         """)
         
-        # Mensagem para o WhatsApp (Invisível no site, mas gera o link)
-        texto_whats = f"Diagnóstico DANGELLI: {nome} (Empresa: {empresa}) - Médias: Gov: {m_gov:.1f}, Blind: {m_blind:.1f}, Estrat: {m_estrat:.1f}, Ref: {m_reforma:.1f}. Detalhes: Q1:{q1}, Q2:{q2}, Q3:{q3}, Q4:{q4}, Q5:{q5}, Q6:{q6}, Q7:{q7}, Q8:{q8}, Q9:{q9}, Q10:{q10}, Q11:{q11}, Q12:{q12}, Q13:{q13}, Q14:{q14}, Q15:{q15}, Q16:{q16}, Q17:{q17}, Q18:{q18}, Q19:{q19}, Q20:{q20}, Q21:{q21}"
-        link_whats = f"https://wa.me/5511974411211?text={texto_whats.replace(' ', '%20')}"
-        
-        st.markdown(f'[📲 CLIQUE AQUI PARA NOTIFICAR O CONSULTOR NO WHATSAPP]({link_whats})')
-        
     else:
-        st.error("Por favor, preencha seu nome e o nome da empresa antes de liberar a análise.")
+        st.error("Por favor, preencha seu nome e o nome da empresa no topo da página.")
