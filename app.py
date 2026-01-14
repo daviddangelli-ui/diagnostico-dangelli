@@ -10,7 +10,7 @@ st.set_page_config(page_title="Diagnóstico de Maturidade DANGELLI", layout="wid
 def oferecer_proximos_passos(nome, empresa, resumo_msg):
     st.warning("⚠️ **ÚLTIMO PASSO OBRIGATÓRIO:**")
     
-    # Link do WhatsApp formatado
+    # Link do WhatsApp formatado para o seu número
     link_final = f"https://wa.me/5531983984001?text={resumo_msg}"
     
     st.link_button("🚀 CLIQUE AQUI PARA CONCLUIR E ENVIAR DIAGNÓSTICO", link_final, use_container_width=True)
@@ -24,7 +24,7 @@ def oferecer_proximos_passos(nome, empresa, resumo_msg):
     3. Você receberá o convite para nossa **Master Class sobre Governança**.
     """)
 
-# --- ALTERNATIVA 1: O SEU CÓDIGO ORIGINAL (INTEGRAL) ---
+# --- ALTERNATIVA 1: O SEU CÓDIGO ORIGINAL (INTEGRAL COM 21 PERGUNTAS) ---
 def diagnostico_original_dangelli():
     st.header("🏛️ Diagnóstico de Maturidade: Reforma Tributária vs. Governança")
     
@@ -36,7 +36,6 @@ def diagnostico_original_dangelli():
         st.divider()
         st.subheader("📊 Responda às 21 questões fundamentais (Nível 1 a 5):")
         
-        # Pilares Originalmente desenvolvidos
         st.info("Pilar 1: Governança e Longevidade")
         q1 = st.slider("1. Existe um Acordo de Sócios formalizado?", 1, 5, 1); q2 = st.slider("2. As reuniões de diretoria são formalizadas em atas?", 1, 5, 1); q3 = st.slider("3. Há um plano de sucessão definido?", 1, 5, 1); q4 = st.slider("4. Patrimônio pessoal separado do da empresa?", 1, 5, 1); q5 = st.slider("5. Existe conselho consultivo independente?", 1, 5, 1); q6 = st.slider("6. O Código de Ética é conhecido por todos?", 1, 5, 1)
         
@@ -70,58 +69,85 @@ def diagnostico_original_dangelli():
         else:
             st.error("Por favor, preencha o Nome e a Empresa.")
 
-# --- ALTERNATIVA 2: PME (SIMPLIFICADO) ---
+# --- ALTERNATIVA 2: PME (FOCO EM SOBREVIVÊNCIA E MARGEM) ---
 def diagnostico_pme():
     st.header("💡 Diagnóstico Rápido: Foco em PMEs")
     nome_pme = st.text_input("Seu Nome (PME):")
     emp_pme = st.text_input("Empresa (PME):")
     
-    st.info("Responda de forma simples para uma análise rápida de sobrevivência fiscal.")
-    p1 = st.toggle("Sua contabilidade é 100% externa?")
-    p2 = st.toggle("Mistura contas pessoais com as da empresa?")
-    p3 = st.toggle("Já revisou seus preços para 2026?")
+    st.info("Foco em agilidade operacional e controle de margem para pequenas e médias empresas.")
+    
+    p1 = st.toggle("Sua estratégia atual já considera a turbulência de gerir dois sistemas tributários simultâneos?")
+    p2 = st.toggle("Você tem controle real sobre a margem líquida ou olha apenas para o faturamento bruto?")
+    p3 = st.toggle("Sua equipe atual consegue absorver novas regras fiscais sem parar a operação?")
     
     if st.button("Analisar Perfil PME"):
-        resumo_pme = f"PERFIL PME%0A👤 Nome: {nome_pme}%0A🏢 Empresa: {emp_pme}%0AContabilidade Externa: {p1}%0AMistura Contas: {p2}%0APreços 2026: {p3}"
-        oferecer_proximos_passos(nome_pme, emp_pme, resumo_pme)
+        if nome_pme and emp_pme:
+            resumo_pme = f"PERFIL PME%0A👤 Nome: {nome_pme}%0A🏢 Empresa: {emp_pme}%0AMargem Real: {p2}%0AEquipe: {p3}"
+            oferecer_proximos_passos(nome_pme, emp_pme, resumo_pme)
+        else:
+            st.error("Preencha Nome e Empresa.")
 
-# --- ALTERNATIVA 3: CORPORATIVO COMPLETO (BASEADO NO SEU PRINT INTERNO) ---
+# --- ALTERNATIVA 3: CORPORATIVO (COMPLETO COM PESSOAS E INOVAÇÃO) ---
 def diagnostico_corporativo_interno():
     st.header("🏢 Diagnóstico Corporativo Profundo (Equipe Interna)")
     nome_corp = st.text_input("Consultor/Executivo:")
     emp_corp = st.text_input("Cliente Corporativo:")
 
-    aba1, aba2 = st.tabs(["Estratégia e Pessoas", "Financeiro e Processos"])
+    aba1, aba2, aba3, aba4 = st.tabs(["Estratégia & Gov", "Financeiro & Tributário", "Cadeia & Comercial", "Pessoas & Inovação"])
     
     with aba1:
-        st.subheader("Gestão Estratégica")
-        c1 = st.checkbox("O modelo de negócio suporta o aumento de carga tributária de serviços?")
-        c2 = st.checkbox("Existe governança familiar clara e segregação de ativos?")
-        
-    with aba2:
-        st.subheader("Gestão Financeira")
-        c3 = st.checkbox("A empresa monitora o Capital de Giro para o Split Payment?")
-        c4 = st.checkbox("Os fornecedores são auditados para garantir créditos de IVA?")
-        
-    if st.button("Gerar Score Corporativo"):
-        score = sum([c1, c2, c3, c4])
-        resumo_corp = f"CORPORATIVO INTERNO%0A👤 De: {nome_corp}%0A🏢 Cliente: {emp_corp}%0AScore: {score}/4"
-        st.metric("Pontuação de Maturidade", f"{score}/4")
-        oferecer_proximos_passos(nome_corp, emp_corp, resumo_corp)
+        st.subheader("Gestão Estratégica e Governança")
+        c1 = st.checkbox("O modelo de negócio atual suporta o aumento de carga tributária de serviços?")
+        c2 = st.checkbox("Existe clara segregação entre o patrimônio familiar e os riscos da operação?")
+        c3 = st.checkbox("A estratégia considera a convivência de dois sistemas (2026-2033)?")
 
-# --- NAVEGAÇÃO LATERAL ---
-st.sidebar.image("https://via.placeholder.com/150", caption="DANGELLI Consultoria") # Substitua pela sua logo se tiver o link
-st.sidebar.title("Menu de Diagnóstico")
-opcao = st.sidebar.radio("Selecione o Modelo:", 
-    ["1. Maturidade DANGELLI (Atual)", "2. Perfil PME (Rápido)", "3. Corporativo (Interno)"])
+    with aba2:
+        st.subheader("Gestão Financeira e Tributária")
+        c4 = st.checkbox("Existe projeção do aumento da Necessidade de Capital de Giro (NCG)?")
+        c5 = st.checkbox("Sua gestão financeira é preditiva (antecipa impacto no EBITDA)?")
+        c6 = st.checkbox("Existe orçamento para o custo de conformidade (sistemas e treinamento)?")
+
+    with aba3:
+        st.subheader("Cadeia de Valor e Comercial")
+        c7 = st.checkbox("Você mapeou quais fornecedores podem se tornar 'tóxicos' (sem créditos)?")
+        c8 = st.checkbox("Sua proposta de valor justifica repasse de custos ou perderá mercado?")
+
+    with aba4:
+        st.subheader("Pessoas, Inovação e Tecnologia")
+        c9 = st.checkbox("Sua equipe tem 'musculatura técnica' para operar o novo sistema IVA?")
+        c10 = st.checkbox("Seu ERP é um ativo estratégico ou uma âncora que impedirá o cálculo correto?")
+        c11 = st.checkbox("Existe um plano de inovação para reduzir custos operacionais com a Reforma?")
+        c12 = st.checkbox("A liderança está engajada em treinar o time para a transição digital/fiscal?")
+
+    if st.button("Gerar Score Corporativo Completo"):
+        if nome_corp and emp_corp:
+            pontos = sum([c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12])
+            total = 12
+            percentual = (pontos / total) * 100
+            
+            st.metric("Pontuação de Maturidade Corporativa", f"{pontos}/{total} ({percentual:.0f}%)")
+            st.progress(percentual / 100)
+            
+            status = "Crítico" if percentual < 50 else "Em Evolução" if percentual < 80 else "Estratégico"
+            resumo_corp = f"CORPORATIVO%0A👤 De: {nome_corp}%0A🏢 Cliente: {emp_corp}%0AScore: {pontos}/{total}%0AStatus: {status}"
+            
+            oferecer_proximos_passos(nome_corp, emp_corp, resumo_corp)
+        else:
+            st.error("Preencha Nome e Cliente.")
+
+# --- MENU DE NAVEGAÇÃO LATERAL ---
+st.sidebar.title("Menu DANGELLI")
+opcao = st.sidebar.radio("Selecione o Diagnóstico:", 
+    ["1. Maturidade DANGELLI (Original)", "2. Perfil PME (Simplificado)", "3. Corporativo (Completo)"])
 
 st.sidebar.divider()
 st.sidebar.write("v 2.0 - Reforma Tributária & Governança")
 
 # --- LÓGICA DE EXIBIÇÃO ---
-if opcao == "1. Maturidade DANGELLI (Atual)":
+if opcao == "1. Maturidade DANGELLI (Original)":
     diagnostico_original_dangelli()
-elif opcao == "2. Perfil PME (Rápido)":
+elif opcao == "2. Perfil PME (Simplificado)":
     diagnostico_pme()
 else:
     diagnostico_corporativo_interno()
