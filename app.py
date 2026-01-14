@@ -2,22 +2,22 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# 1. CONFIGURAÇÃO DA PÁGINA
-st.set_page_config(page_title="Diagnóstico de Maturidade DANGELLI", layout="wide")
+# 1. CONFIGURAÇÃO BÁSICA
+st.set_page_config(page_title="DANGELLI Hub", layout="wide")
 
-# --- FUNÇÃO DE APOIO: FINALIZAÇÃO, WHATSAPP E MASTERCLASS ---
+# --- FUNÇÃO DE APOIO: FINALIZAÇÃO E WHATSAPP ---
 def oferecer_proximos_passos(nome, empresa, resumo_msg):
     st.divider()
     st.subheader("🎓 Próximos Passos: Masterclass DANGELLI")
     st.write(f"Parabéns, **{nome}**! Você deu o primeiro passo para a perenidade da **{empresa}**.")
-    st.info("💡 **DICA ESTRATÉGICA:** Assista à nossa Masterclass exclusiva sobre Governança e a Nova Reforma Tributária.")
     
     col1, col2 = st.columns(2)
     with col1:
-        st.link_button("📺 ASSISTIR MASTERCLASS GRATUITA", "https://youtube.com/@dangelliconsultoria", use_container_width=True)
+        st.link_button("📺 ASSISTIR MASTERCLASS", "https://youtube.com/@dangelliconsultoria", use_container_width=True)
     with col2:
-        link_final = f"https://wa.me/5531983984001?text={resumo_msg}"
-        st.link_button("🚀 ENVIAR RESULTADOS PARA ANÁLISE TÉCNICA", link_final, use_container_width=True)
+        # Link do WhatsApp formatado de forma ultra-simples para evitar erro de servidor
+        wa_url = f"https://wa.me/5531983984001?text={resumo_msg}"
+        st.link_button("🚀 ENVIAR PARA ANÁLISE TÉCNICA", wa_url, use_container_width=True)
 
 # --- OPÇÃO 1: MATURIDADE DANGELLI ORIGINAL ---
 def diagnostico_original_dangelli():
@@ -26,80 +26,128 @@ def diagnostico_original_dangelli():
         nome = st.text_input("Seu Nome Completo:")
         empresa = st.text_input("Nome da sua Empresa:")
         st.divider()
-        st.subheader("📊 Avaliação de Maturidade (Nível 1 a 5):")
         
         c1, c2 = st.columns(2)
         with c1:
             st.markdown("**Governança e Longevidade**")
-            q1 = st.slider("1. Existe um Acordo de Sócios formalizado e atualizado?", 1, 5, 1)
-            q2 = st.slider("2. As reuniões de diretoria são formalizadas em atas?", 1, 5, 1)
-            q3 = st.slider("3. Há um plano de sucessão definido e comunicado?", 1, 5, 1)
-            q4 = st.slider("4. O patrimônio pessoal está totalmente separado do patrimônio da empresa?", 1, 5, 1)
-            q5 = st.slider("5. Existe um conselho consultivo ou diretoria independente?", 1, 5, 1)
-            q6 = st.slider("6. O Código de Ética e Conduta é conhecido por todos?", 1, 5, 1)
+            q1 = st.slider("Existe um Acordo de Sócios formalizado e atualizado?", 1, 5, 1)
+            q2 = st.slider("As reuniões de diretoria são formalizadas em atas?", 1, 5, 1)
+            q3 = st.slider("Há um plano de sucessão definido e comunicado?", 1, 5, 1)
+            q4 = st.slider("O patrimônio pessoal está separado da empresa?", 1, 5, 1)
+            q5 = st.slider("Existe um conselho ou diretoria independente?", 1, 5, 1)
+            q6 = st.slider("O Código de Ética é conhecido por todos?", 1, 5, 1)
             st.markdown("**Blindagem Patrimonial**")
-            q7 = st.slider("7. A empresa possui holding patrimonial constituída?", 1, 5, 1)
-            q8 = st.slider("8. Os ativos estão protegidos contra riscos cíveis e trabalhistas?", 1, 5, 1)
-            q9 = st.slider("9. Há seguro D&O contratado para os diretores?", 1, 5, 1)
-            q10 = st.slider("10. A estrutura de capital está otimizada (Dívida vs Patrimônio)?", 1, 5, 1)
-            q11 = st.slider("11. Existem cláusulas de impenhorabilidade nos bens principais?", 1, 5, 1)
+            q7 = st.slider("A empresa possui holding patrimonial?", 1, 5, 1)
+            q8 = st.slider("Os ativos estão protegidos contra riscos cíveis?", 1, 5, 1)
+            q9 = st.slider("Há seguro D&O para os diretores?", 1, 5, 1)
+            q10 = st.slider("A estrutura de capital está otimizada?", 1, 5, 1)
+            q11 = st.slider("Existem cláusulas de impenhorabilidade?", 1, 5, 1)
         with c2:
             st.markdown("**Estratégia e Valuation**")
-            q12 = st.slider("12. A empresa possui planejamento estratégico formal para os próximos 5 anos?", 1, 5, 1)
-            q13 = st.slider("13. O EBITDA é monitorado mensalmente com metas claras?", 1, 5, 1)
-            q14 = st.slider("14. A empresa realizou Valuation profissional nos últimos 2 anos?", 1, 5, 1)
-            q15 = st.slider("15. Existe auditoria independente ou interna periódica?", 1, 5, 1)
-            q16 = st.slider("16. Os processos internos cruciais estão mapeados e padronizados?", 1, 5, 1)
+            q12 = st.slider("Planejamento estratégico para os próximos 5 anos?", 1, 5, 1)
+            q13 = st.slider("O EBITDA é monitorado mensalmente?", 1, 5, 1)
+            q14 = st.slider("Valuation profissional nos últimos 2 anos?", 1, 5, 1)
+            q15 = st.slider("Existe auditoria periódica?", 1, 5, 1)
+            q16 = st.slider("Processos internos mapeados e padronizados?", 1, 5, 1)
             st.markdown("**Prontidão Reforma 2026**")
-            q17 = st.slider("17. Foi feito o mapeamento do impacto do IBS/CBS no fluxo de caixa?", 1, 5, 1)
-            q18 = st.slider("18. O setor contábil/fiscal já recebeu treinamento para o modelo de IVA?", 1, 5, 1)
-            q19 = st.slider("19. Há estratégia definida para o funcionamento do Split Payment?", 1, 5, 1)
-            q20 = st.slider("20. Os contratos atuais possuem cláusulas de revisão tributária?", 1, 5, 1)
-            q21 = st.slider("21. A empresa participa de comitês sobre a transição tributária?", 1, 5, 1)
+            q17 = st.slider("Mapeou impacto do IBS/CBS no fluxo de caixa?", 1, 5, 1)
+            q18 = st.slider("Setor contábil recebeu treinamento para IVA?", 1, 5, 1)
+            q19 = st.slider("Há estratégia para o Split Payment?", 1, 5, 1)
+            q20 = st.slider("Contratos possuem revisão tributária?", 1, 5, 1)
+            q21 = st.slider("Participa de comitês sobre a transição?", 1, 5, 1)
         
-        if st.form_submit_button("🚀 GERAR DIAGNÓSTICO CORPORATIVO"):
-            if nome and empresa:
-                m_gov = (q1+q2+q3+q4+q5+q6)/6
-                m_blind = (q7+q8+q9+q10+q11)/5
-                m_est = (q12+q13+q14+q15+q16)/5
-                m_ref = (q17+q18+q19+q20+q21)/5
-                df = pd.DataFrame({'Pilar':['Gov','Prot','Est','Ref'],'Nível':[m_gov,m_blind,m_est,m_ref]})
-                st.plotly_chart(px.line_polar(df, r='Nível', theta='Pilar', line_close=True, range_r=[0,5]))
-                
-                detalhe_notas = f"G:{q1}-{q6}|B:{q7}-{q11}|E:{q12}-{q16}|R:{q17}-{q21}"
-                msg = f"DIAG_MATURIDADE%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A📊 Médias: G:{m_gov:.1f}, B:{m_blind:.1f}, E:{m_est:.1f}, R:{m_ref:.1f}%0A📝 Notas: {detalhe_notas}"
-                oferecer_proximos_passos(nome, empresa, msg)
+        submitted = st.form_submit_button("🚀 GERAR DIAGNÓSTICO CORPORATIVO")
+        
+    if submitted:
+        if nome and empresa:
+            m_gov = (q1+q2+q3+q4+q5+q6)/6
+            m_blind = (q7+q8+q9+q10+q11)/5
+            m_est = (q12+q13+q14+q15+q16)/5
+            m_ref = (q17+q18+q19+q20+q21)/5
+            
+            df = pd.DataFrame({
+                'Pilar': ['Governança', 'Blindagem', 'Estratégia', 'Reforma'],
+                'Nível': [m_gov, m_blind, m_est, m_ref]
+            })
+            st.plotly_chart(px.line_polar(df, r='Nível', theta='Pilar', line_close=True, range_r=[0,5]))
+            
+            resumo = f"Nome: {nome} - Empresa: {empresa} - Medias: G:{m_gov:.1f} B:{m_blind:.1f} E:{m_est:.1f} R:{m_ref:.1f}"
+            oferecer_proximos_passos(nome, empresa, resumo)
 
 # --- OPÇÃO 2: GOVERNANÇA, ESTRATÉGIA E VALUATION ---
 def diagnostico_valuation_ma():
     st.header("📈 Diagnóstico: Governança, Estratégia e Valuation")
-    nome = st.text_input("Executivo Responsável:"); empresa = st.text_input("Empresa:")
+    nome = st.text_input("Seu Nome:")
+    empresa = st.text_input("Empresa:")
+    
     t1, t2, t3, t4 = st.tabs(["🏛️ Governança", "🛡️ Proteção", "🎯 Estratégia", "💰 Valuation"])
     with t1:
-        g1 = st.slider("Existe um Acordo de Sócios formalizado e atualizado?", 1, 5, 1)
-        g2 = st.slider("As reuniões de diretoria são formalizadas em atas?", 1, 5, 1)
-        g3 = st.slider("Existe plano de sucessão e programa de formação de herdeiros?", 1, 5, 1)
-        g4 = st.slider("A estrutura possui Conselho Consultivo e de Família?", 1, 5, 1)
-        g5 = st.slider("Há Código de Ética assinado por todos os colaboradores?", 1, 5, 1)
-        g6 = st.slider("Existem regras claras de sucessão por morte e exclusão?", 1, 5, 1)
-        g7 = st.slider("A política de distribuição de lucros está claramente definida?", 1, 5, 1)
+        g1 = st.slider("Acordo de Sócios formalizado?", 1, 5, 1)
+        g2 = st.slider("Atas de diretoria em dia?", 1, 5, 1)
+        g3 = st.slider("Plano de sucessão definido?", 1, 5, 1)
+        g4 = st.slider("Conselho Consultivo ativo?", 1, 5, 1)
     with t2:
-        p1 = st.slider("Existe Holding para proteção do negócio e dos acionistas?", 1, 5, 1)
-        p2 = st.slider("O Acordo de Acionistas abrange a Holding e a família?", 1, 5, 1)
-        p3 = st.slider("Os ativos estão protegidos contra riscos cíveis?", 1, 5, 1)
-        p4 = st.slider("Há seguros contratados (D&O e Sucessão Patrimonial)?", 1, 5, 1)
+        p1 = st.slider("Holding constituída?", 1, 5, 1)
+        p2 = st.slider("Proteção contra riscos cíveis?", 1, 5, 1)
     with t3:
-        e1 = st.slider("Existe Planejamento Estratégico formal para os próximos 5 anos?", 1, 5, 1)
-        e2 = st.slider("O acompanhamento de KPIs é realizado mensalmente?", 1, 5, 1)
-        e3 = st.slider("Há monitoramento rigoroso de DRE e EBITDA?", 1, 5, 1)
-        e4 = st.slider("As ações estratégicas estão alinhadas à Reforma Tributária?", 1, 5, 1)
+        e1 = st.slider("Planejamento 5 anos?", 1, 5, 1)
+        e2 = st.slider("EBITDA mensal monitorado?", 1, 5, 1)
     with t4:
-        v1 = st.slider("A empresa realizou Valuation profissional nos últimos 2 anos?", 1, 5, 1)
-        v2 = st.slider("Existe modelagem financeira para projeção de crescimento?", 1, 5, 1)
-        v3 = st.slider("Há visão clara da estratégia de Funding para expansão?", 1, 5, 1)
-        v4 = st.slider("Existe preparação para venda ou assédio do mercado (M&A)?", 1, 5, 1)
-        v5 = st.slider("A diretoria domina as variáveis geradoras de valor (Value Drivers)?", 1, 5, 1)
-            
-    if st.button("🚀 GERAR DIAGNÓSTICO CORPORATIVO"):
+        v1 = st.slider("Valuation recente?", 1, 5, 1)
+        v2 = st.slider("Visão de Value Drivers?", 1, 5, 1)
+
+    if st.button("🚀 GERAR DIAGNÓSTICO CORPORATIVO", key="btn_val"):
         if nome and empresa:
-            m_gov=(g1+g2+g3+g4+g5+g6+g7)/7; m
+            df = pd.DataFrame({
+                'Pilar': ['Gov', 'Prot', 'Est', 'Val'],
+                'Nível': [g1, p1, e1, v1]
+            })
+            st.plotly_chart(px.line_polar(df, r='Nível', theta='Pilar', line_close=True, range_r=[0,5]))
+            resumo = f"Valuation - Nome: {nome} - Notas: {g1},{p1},{e1},{v1}"
+            oferecer_proximos_passos(nome, empresa, resumo)
+
+# --- OPÇÃO 3: CORPORATIVO COMPLETO ---
+def diagnostico_corporativo_completo():
+    st.header("🏢 Diagnóstico Corporativo Profundo")
+    nome = st.text_input("Responsável:")
+    empresa = st.text_input("Empresa Cliente:")
+    
+    tabs = st.tabs(["Estratégia", "Financeiro", "Cadeia", "Governança", "Tecnologia"])
+    with tabs[0]:
+        c1 = st.slider("Operação em dois regimes tributários?", 1, 5, 1)
+        c2 = st.slider("Perenidade sem benefícios fiscais?", 1, 5, 1)
+    with tabs[1]:
+        f1 = st.slider("Impacto real no fluxo de caixa?", 1, 5, 1)
+        f2 = st.slider("Margem líquida por canal?", 1, 5, 1)
+    with tabs[2]:
+        v1 = st.slider("Defesa de preço por valor?", 1, 5, 1)
+        v2 = st.slider("Revisão de contratos longos?", 1, 5, 1)
+    with tabs[3]:
+        g1 = st.slider("Segregação patrimônio vs risco?", 1, 5, 1)
+        g2 = st.slider("Sucessão técnica preparada?", 1, 5, 1)
+    with tabs[4]:
+        x1 = st.slider("Time contábil treinado?", 1, 5, 1)
+        x2 = st.slider("ERP como ativo estratégico?", 1, 5, 1)
+
+    if st.button("🚀 GERAR DIAGNÓSTICO CORPORATIVO", key="btn_corp"):
+        if nome and empresa:
+            df = pd.DataFrame({
+                'Pilar': ['Est', 'Fin', 'Cad', 'Gov', 'Tec'],
+                'Nível': [c1, f1, v1, g1, x1]
+            })
+            st.plotly_chart(px.line_polar(df, r='Nível', theta='Pilar', line_close=True, range_r=[0,5]))
+            resumo = f"Corporativo - Nome: {nome} - Empresa: {empresa}"
+            oferecer_proximos_passos(nome, empresa, resumo)
+
+# --- MENU ---
+st.sidebar.title("DANGELLI Hub")
+op = st.sidebar.radio("Selecione:", ["Maturidade", "Valuation", "Corporativo"])
+st.sidebar.divider()
+st.sidebar.write("v 4.0 - Estabilidade Total")
+
+if op == "Maturidade":
+    diagnostico_original_dangelli()
+elif op == "Valuation":
+    diagnostico_valuation_ma()
+else:
+    diagnostico_corporativo_completo()
