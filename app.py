@@ -5,13 +5,21 @@ import plotly.express as px
 # 1. CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(page_title="Diagnóstico de Maturidade DANGELLI", layout="wide")
 
-# --- FUNÇÃO DE APOIO: FINALIZAÇÃO (WHATSAPP) ---
+# --- FUNÇÃO DE APOIO: FINALIZAÇÃO, WHATSAPP E MASTERCLASS ---
 def oferecer_proximos_passos(nome, empresa, resumo_msg):
-    st.warning("⚠️ **ÚLTIMO PASSO OBRIGATÓRIO:**")
-    link_final = f"https://wa.me/5531983984001?text={resumo_msg}"
-    st.link_button("🚀 CLIQUE AQUI PARA CONCLUIR E ENVIAR DIAGNÓSTICO", link_final, use_container_width=True)
     st.divider()
-    st.success(f"Análise processada para {nome}!")
+    st.subheader("🎓 Próximos Passos: Masterclass DANGELLI")
+    st.write(f"Parabéns, **{nome}**! Você deu o primeiro passo para a perenidade da **{empresa}**.")
+    st.info("💡 **DICA ESTRATÉGICA:** Não pare apenas no gráfico. Assista à nossa Masterclass exclusiva sobre Governança e a Nova Reforma Tributária.")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.link_button("📺 ASSISTIR MASTERCLASS GRATUITA", "https://youtube.com/@dangelliconsultoria", use_container_width=True)
+    with col2:
+        link_final = f"https://wa.me/5531983984001?text={resumo_msg}"
+        st.link_button("🚀 ENVIAR RESULTADOS PARA ANÁLISE TÉCNICA", link_final, use_container_width=True)
+    
+    st.warning("⚠️ **ATENÇÃO:** Para validar seu diagnóstico, clique no botão acima para nos enviar seus dados via WhatsApp.")
 
 # --- OPÇÃO 1: MATURIDADE DANGELLI ORIGINAL (21 QUESTÕES) ---
 def diagnostico_original_dangelli():
@@ -52,7 +60,7 @@ def diagnostico_original_dangelli():
         q20 = st.slider("20. Cláusulas de revisão tributária em contratos?", 1, 5, 1)
         q21 = st.slider("21. Participa de comitês sobre a transição?", 1, 5, 1)
         
-        submitted = st.form_submit_button("📊 GERAR GRÁFICO")
+        submitted = st.form_submit_button("🚀 GERAR DIAGNÓSTICO CORPORATIVO")
         
     if submitted:
         if nome and empresa:
@@ -62,7 +70,7 @@ def diagnostico_original_dangelli():
             m_reforma = (q17+q18+q19+q20+q21)/5
             df_radar = pd.DataFrame({'Pilar': ['Governança', 'Blindagem', 'Estratégia', 'Reforma 2026'], 'Nível': [m_gov, m_blind, m_estrat, m_reforma]})
             st.plotly_chart(px.line_polar(df_radar, r='Nível', theta='Pilar', line_close=True, range_r=[0,5]))
-            resumo_wa = f"MATURIDADE ORIGINAL%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A📊 Médias: Gov:{m_gov:.1f}, Blind:{m_blind:.1f}, Est:{m_estrat:.1f}, Ref:{m_reforma:.1f}"
+            resumo_wa = f"DIAG_ORIGINAL%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A📊 Médias: Gov:{m_gov:.1f}, Blind:{m_blind:.1f}, Est:{m_estrat:.1f}, Ref:{m_reforma:.1f}"
             oferecer_proximos_passos(nome, empresa, resumo_wa)
 
 # --- OPÇÃO 2: GOVERNANÇA, ESTRATÉGIA E VALUATION ---
@@ -102,7 +110,7 @@ def diagnostico_valuation_ma():
         v4 = st.slider("Preparação para venda ou assédio do mercado?", 1, 5, 1)
         v5 = st.slider("Domínio das variáveis geradoras de valor?", 1, 5, 1)
             
-    if st.button("📊 ANALISAR VALUATION"):
+    if st.button("🚀 GERAR DIAGNÓSTICO CORPORATIVO"):
         if nome and empresa:
             m_gov=(g1+g2+g3+g4+g5+g6+g7)/7
             m_prot=(p1+p2+p3+p4)/4
@@ -110,7 +118,7 @@ def diagnostico_valuation_ma():
             m_val=(v1+v2+v3+v4+v5)/5
             df = pd.DataFrame({'Pilar':['Gov','Prot','Est','Val'],'Nível':[m_gov,m_prot,m_est,m_val]})
             st.plotly_chart(px.line_polar(df, r='Nível', theta='Pilar', line_close=True, range_r=[0,5]))
-            resumo_wa = f"VALUATION%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A📊 Médias: Gov:{m_gov:.1f}, Val:{m_val:.1f}"
+            resumo_wa = f"DIAG_VALUATION%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A📊 Média Valuation: {m_val:.1f}"
             oferecer_proximos_passos(nome, empresa, resumo_wa)
 
 # --- OPÇÃO 3: CORPORATIVO COMPLETO ---
@@ -157,7 +165,7 @@ def diagnostico_corporativo_completo():
         x5 = st.slider("Confiança nos dados cadastrais?", 1, 5, 1)
         x6 = st.slider("Automação vs Trabalho manual?", 1, 5, 1)
 
-    if st.button("🚀 GERAR RELATÓRIO CORPORATIVO"):
+    if st.button("🚀 GERAR DIAGNÓSTICO CORPORATIVO"):
         if nome and empresa:
             m_est=(c1+c2+c3+c4+c5+c6)/6
             m_fin=(f1+f2+f3+f4+f5+f6)/6
@@ -166,18 +174,18 @@ def diagnostico_corporativo_completo():
             m_tec=(x1+x2+x3+x4+x5+x6)/6
             df = pd.DataFrame({'Pilar':['Est','Fin','Com','Gov','Tec'],'Nível':[m_est,m_fin,m_com,m_gov,m_tec]})
             st.plotly_chart(px.line_polar(df, r='Nível', theta='Pilar', line_close=True, range_r=[0,5]))
-            resumo_wa = f"CORPORATIVO%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A📊 Médias: Est:{m_est:.1f}, Fin:{m_fin:.1f}"
+            resumo_wa = f"DIAG_CORPORATIVO%0A👤 Nome: {nome}%0A🏢 Empresa: {empresa}%0A📊 Média Gov: {m_gov:.1f}"
             oferecer_proximos_passos(nome, empresa, resumo_wa)
 
-# --- MENU ---
+# --- MENU PRINCIPAL ---
 st.sidebar.title("Menu DANGELLI Hub")
-op = st.sidebar.radio("Selecione:", [
+op = st.sidebar.radio("Selecione o Nível de Análise:", [
     "1. Maturidade Original", 
     "2. Governança & Valuation", 
     "3. Corporativo Completo"
 ])
 st.sidebar.divider()
-st.sidebar.write("v 2.7 - Business Excellence")
+st.sidebar.write("v 2.8 - Business Excellence")
 
 if op == "1. Maturidade Original":
     diagnostico_original_dangelli()
