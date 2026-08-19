@@ -23,7 +23,7 @@ DIAGNOSTICO_MASTER = {
         {"id": "b1_11", "pergunta": "11. Possui seguro contratado para questões de sucessão?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_12", "pergunta": "12. Possui seguro D&O para proteção dos Diretores e Administradores?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_13", "pergunta": "13. Possui regras para impenhorabilidade nos bens?", "opcoes": OPCOES_PADRAO},
-        {"id": "b1_14", "pergunta": "14. A empresa fez seu Valuation recente para conhecer o valor das cotas dos sócios em caso de necessidade?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_14", "pergunta": "14. A empresa fez seu Valuation recente para conhecer o valor das cotas dos sócios em caso de necessidade - sucessão, saída da sociedade, morte etc?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_15", "pergunta": "15. Já cogitaram venda e/ou a empresa já recebeu assédio do mercado interessado em comprar o ativo ou sociedade?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_16", "pergunta": "16. A empresa já instituiu um Comitê de transição interno para acompanhar as ações e a sustentabilidade do negócio?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_17", "pergunta": "17. Foram feitas simulações sobre reestruturação societária (cisão, PJ operacional/patrimonial) diante das alterações do IRPJ/CSLL?", "opcoes": OPCOES_PADRAO},
