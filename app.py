@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from perguntas import DIAGNOSTICO_CONFIG
+import urllib.parse
+from perguntas import DIAGNOSTICO_1, DIAGNOSTICO_2, DIAGNOSTICO_MASTER
 
 # 1. CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(page_title="DANGELLI Hub - Maturidade 2026", layout="wide")
@@ -12,21 +13,27 @@ def oferecer_proximos_passos(nome, empresa, tipo_diag, resumo_medias, detalhamen
     st.subheader("🎓 Próximos Passos: DANGELLI Advisory")
     st.write(f"Parabéns, **{nome}**! Você deu o passo fundamental para a perenidade da **{empresa}**.")
     
-    # Formatação da mensagem para o WhatsApp
-    texto_wa = (
-        f"DIAGNÓSTICO_DANGELLI_{tipo_diag}%0A"
-        f"👤 Nome: {nome}%0A"
-        f"🏢 Empresa: {empresa}%0A%0A"
-        f"📊 MÉRITAS COM CADA BLOCO:%0A{resumo_medias}%0A%0A"
-        f"📌 DETALHAMENTO DE NOTAS:%0A{detalhamento_notas}%0A%0A"
+    # Texto estruturado limpo para envio no WhatsApp
+    texto_bruto = (
+        f"DIAGNÓSTICO DANGELLI - {tipo_diag}\n"
+        f"👤 Responsável: {nome}\n"
+        f"🏢 Empresa: {empresa}\n\n"
+        f"📊 MÉDIAS POR PILAR:\n{resumo_medias}\n"
+        f"📌 DETALHAMENTO INICIAL:\n{detalhamento_notas}\n"
         f"🚀 Aguardo análise técnica da equipe DANGELLI."
     )
+    
+    # URL Encoding correto para não quebrar links no navegador
+    texto_encoded = urllib.parse.quote(texto_bruto)
+    
+    # Número de telefone configurado
+    numero_wa = "5531983984001"
+    link_wa = f"https://wa.me/{numero_wa}?text={texto_encoded}"
     
     col1, col2 = st.columns(2)
     with col1:
         st.info("💡 **Análise de Governança:** Envie o relatório detalhado diretamente para nossa equipe de conselheiros.")
-        link_wa = f"https://wa.me/5531983984001?text={texto_wa}"  # Atualizar número se necessário
-        st.markdown(f'[![Enviar no WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)]({link_wa})')
+        st.link_button("🟢 Enviar Relatório via WhatsApp", link_wa, type="primary")
 
 # --- MENU LATERAL (SIDEBAR) ---
 st.sidebar.title("DANGELLI Hub")
@@ -56,13 +63,13 @@ with col_b:
 
 st.divider()
 
-# --- CARREGAMENTO DAS PERGUNTAS ---
-# Caso selecione a opção 3, carrega a matriz completa de 82 perguntas de perguntas.py
-if opcao_diagnostico == "3. Diagnóstico Estratégico Master (82 Questões)":
-    config_atual = DIAGNOSTICO_CONFIG
+# --- CARREGAMENTO DAS PERGUNTAS CORRESPONDENTES ---
+if "1. Estruturação" in opcao_diagnostico:
+    config_atual = DIAGNOSTICO_1
+elif "2. Maturidade Plena" in opcao_diagnostico:
+    config_atual = DIAGNOSTICO_2
 else:
-    # Mantém estrutura simplificada para diagnósticos 1 e 2 caso selecione os anteriores
-    config_atual = DIAGNOSTICO_CONFIG
+    config_atual = DIAGNOSTICO_MASTER
 
 # --- FORMULÁRIO DE AVALIAÇÃO ---
 respostas = {}
@@ -89,7 +96,6 @@ with st.form("form_diagnostico"):
             notas_bloco.append(nota)
             respostas[p_texto] = nota
             
-        # Média do bloco
         media_bloco = sum(notas_bloco) / len(notas_bloco) if notas_bloco else 0
         pontuacoes_por_bloco[bloco] = media_bloco
         st.divider()
@@ -103,7 +109,6 @@ if btn_calcular:
     else:
         st.success("Diagnóstico concluído com sucesso!")
         
-        # Dashboard de Indicadores
         st.header("📈 Desempenho por Bloco Estratégico")
         
         df_resultados = pd.DataFrame({
@@ -140,16 +145,16 @@ if btn_calcular:
         # Resumo formatado para envio
         resumo_texto = ""
         for bloco, media in pontuacoes_por_bloco.items():
-            resumo_texto += f"- {bloco}: {media:.2f} / 3.0%0A"
+            resumo_texto += f"• {bloco}: {media:.2f} / 3.0\n"
             
         detalhes_texto = ""
-        for perg, nota in list(respostas.items())[:10]: # Envia resumo das primeiras notas
-            detalhes_texto += f"• {perg[:40]}... = Nota {nota}%0A"
+        for perg, nota in list(respostas.items())[:8]:
+            detalhes_texto += f"• {perg[:35]}... = Nota {nota}\n"
 
         oferecer_proximos_passos(
             nome=nome_usuario,
             empresa=empresa_usuario,
-            tipo_diag=opcao_diagnostico.replace(" ", "_"),
+            tipo_diag=opcao_diagnostico,
             resumo_medias=resumo_texto,
             detalhamento_notas=detalhes_texto
         )
