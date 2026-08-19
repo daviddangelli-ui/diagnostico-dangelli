@@ -1,5 +1,5 @@
 # perguntas.py
-# DANGELLI - Base de Dados Completa do Diagnóstico Estratégico (82 Perguntas)
+# DANGELLI - Base de Dados dos Diagnósticos Corporativos
 
 OPCOES_PADRAO = {
     "0 - Não Iniciado / Desconhecido (Risco Crítico)": 0,
@@ -8,7 +8,7 @@ OPCOES_PADRAO = {
     "3 - Implementado, Formalizado e Monitorado (Maturidade)": 3
 }
 
-DIAGNOSTICO_CONFIG = {
+DIAGNOSTICO_MASTER = {
     "BLOCO 1: Governança Corporativa, Proteção Patrimonial e Sucessão": [
         {"id": "b1_01", "pergunta": "1. Existe um Acordo de Sócios formalizado?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_02", "pergunta": "2. Há um plano de sucessão definido (natural ou por morte)?", "opcoes": OPCOES_PADRAO},
@@ -100,3 +100,9 @@ DIAGNOSTICO_CONFIG = {
         {"id": "b4_16", "pergunta": "16. Simulou a posição competitiva dos concorrentes (nacionais vs. importadores) quanto a ganhos de margem no IVA?", "opcoes": OPCOES_PADRAO}
     ]
 }
+
+# Diagnóstico 1: Filtra as primeiras 5 perguntas essenciais de cada bloco (20 perguntas)
+DIAGNOSTICO_1 = {bloco: lista[:5] for bloco, lista in DIAGNOSTICO_MASTER.items()}
+
+# Diagnóstico 2: Filtra as primeiras 10 perguntas de transição de cada bloco (40 perguntas)
+DIAGNOSTICO_2 = {bloco: lista[:10] for bloco, lista in DIAGNOSTICO_MASTER.items()}
