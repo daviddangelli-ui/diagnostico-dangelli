@@ -1,5 +1,5 @@
 # perguntas.py
-# DANGELLI - Base de Dados de Perguntas do Diagnóstico Estratégico de Maturidade
+# DANGELLI - Base de Dados Completa do Diagnóstico Estratégico de Maturidade
 
 OPCOES_PADRAO = {
     "0 - Não Iniciado / Desconhecido (Risco Crítico)": 0,
@@ -9,112 +9,94 @@ OPCOES_PADRAO = {
 }
 
 DIAGNOSTICO_CONFIG = {
-    "Bloco 1: Governança, Estratégia e Acordo de Acionistas": [
-        {
-            "id": "gov_01",
-            "pergunta": "1. O Acordo de Acionistas/Quotas possui regramento claro para quóruns de decisão sobre investimentos de capital (CAPEX) e reestruturação fiscal?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "gov_02",
-            "pergunta": "2. Existe um Conselho de Administração ou Consultivo estruturado com reuniões periódicas e pautas estratégicas de transição corporativa?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "gov_03",
-            "pergunta": "3. O Planejamento Estratégico de médio/longo prazo contempla cenários de transição tributária e impactos no valuation da empresa?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "gov_04",
-            "pergunta": "4. A empresa possui uma Matriz de Riscos Corporativos (ERM) e diretrizes de Compliance formalizadas e auditadas?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "gov_05",
-            "pergunta": "5. A estrutura de liderança executiva (C-Level) possui autonomia e metas (OKRs/KPIs) atreladas à eficiência operacional e fiscal?",
-            "opcoes": OPCOES_PADRAO
-        }
+    "BLOCO 1: Governança Corporativa, Proteção Patrimonial e Sucessão": [
+        {"id": "b1_01", "pergunta": "1. Existe um Acordo de Sócios formalizado?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_02", "pergunta": "2. Há um plano de sucessão definido (natural ou por morte)?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_03", "pergunta": "3. Patrimônio pessoal é separado do da empresa?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_04", "pergunta": "4. Existe conselho consultivo independente?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_05", "pergunta": "5. Existe um programa de Formação de Sucessores?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_06", "pergunta": "6. Existem regras definidas para exclusão da sociedade?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_07", "pergunta": "7. Existe uma política de distribuição de lucros?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_08", "pergunta": "8. Possui holding patrimonial para o negócio e também para cada acionista?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_09", "pergunta": "9. Possui Acordo de Acionistas para o negócio e para cada acionista?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_10", "pergunta": "10. Possui seguro para proteção dos ativos contra riscos cíveis?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_11", "pergunta": "11. Possui seguro contratado para questões de sucessão?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_12", "pergunta": "12. Possui seguro D&O para proteção dos Diretores e Administradores?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_13", "pergunta": "13. Possui regras para impenhorabilidade nos bens?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_14", "pergunta": "14. A empresa fez seu Valuation recente para conhecer o valor das cotas dos sócios em caso de necessidade?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_15", "pergunta": "15. Já cogitaram venda e/ou a empresa já recebeu assédio do mercado interessado em comprar o ativo ou sociedade?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_16", "pergunta": "16. (PV) A empresa já instituiu um Comitê de transição interno para acompanhar as ações e a sustentabilidade do negócio?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_17", "pergunta": "17. (PV) Foram feitas simulações sobre reestruturação societária (cisão, PJ operacional/patrimonial) diante das alterações do IRPJ/CSLL?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_18", "pergunta": "18. (Conselheiro) O Comitê de Transição possui regimento interno, matriz de alçadas e reporte direto ao Conselho?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_19", "pergunta": "19. (Conselheiro) A transição da Reforma foi incorporada às metas (OKRs/KPIs) e remuneração variável dos diretores?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_20", "pergunta": "20. (Conselheiro) O Conselho mapeou riscos de responsabilidade civil, fiscal e passivos durante a convivência dos dois sistemas (2026–2032)?", "opcoes": OPCOES_PADRAO}
     ],
-    "Bloco 2: CAPEX, Operações, Contratos & Cláusula de Hardship": [
-        {
-            "id": "ope_01",
-            "pergunta": "6. Os contratos plurianuais B2B (com clientes e fornecedores) possuem cláusulas específicas de Hardship / Reequilíbrio Econômico-Financeiro?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "ope_02",
-            "pergunta": "7. A gestão de CAPEX possui metodologia de aprovação de projetos com avaliação de retorno considerando o aproveitamento de créditos fiscais?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "ope_03",
-            "pergunta": "8. Existe mapeamento do impacto da reforma tributária sobre a aquisição de máquinas, equipamentos e estoque de insumos industriais?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "ope_04",
-            "pergunta": "9. A empresa aplica metodologias de eficiência operacional (Lean, Six Sigma ou TOC) para redução de gargalos e estoques intermediários?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "ope_05",
-            "pergunta": "10. Os processos fabris e contratuais atendem aos requisitos de certificações ISO e exigências ESG de grandes contratantes?",
-            "opcoes": OPCOES_PADRAO
-        }
+    "BLOCO 2: Estratégia de Negócios, Contratos e Cadeia de Valor": [
+        {"id": "b2_01", "pergunta": "1. Possui planejamento estratégico com mapa estratégico, iniciativas e metas para os próximos 5 anos?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_02", "pergunta": "2. A empresa já está se preparando para os impactos multidisciplinares da Reforma Tributária?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_03", "pergunta": "3. Sabe de onde buscará recursos para a estratégia de crescimento (próprios, mercado ou acionista)?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_04", "pergunta": "4. Os atuais contratos de longo prazo protegem sua margem contra aumentos de alíquota da reforma?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_05", "pergunta": "5. Mapeou quais fornecedores se tornarão 'tóxicos' por não gerarem os créditos tributários necessários?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_06", "pergunta": "6. Sua logística é desenhada para eficiência real ou depende de incentivos estaduais que deixarão de existir?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_07", "pergunta": "7. Existe um plano de renegociação ativo com seus parceiros estratégicos antecipando a reforma?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_08", "pergunta": "8. A integração com fornecedores permite visibilidade em tempo real para garantir o fluxo de crédito no capital de giro?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_09", "pergunta": "9. (PV) Existem ações estratégicas alinhadas com as necessidades da Reforma Tributária?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_10", "pergunta": "10. (PV) Foram revistas as cláusulas dos contratos em execução que persistirão na transição (2027 a 2033)?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_11", "pergunta": "11. (PV) Nos novos contratos, foram revistas cláusulas de pagamento, descumprimento fiscal e resolução de disputas?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_12", "pergunta": "12. (PV) Foram feitos estudos sobre enquadramento em regimes específicos/diferenciados de tributação?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_13", "pergunta": "13. (PV) Avaliou a viabilidade com o deslocamento da arrecadação da origem (município/estado) para o destino (consumo)?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_14", "pergunta": "14. (PV) Analisou logística, localização de CDs, lojas físicas/virtuais e marketplaces diante do fim dos benefícios estaduais?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_15", "pergunta": "15. (PV) Mapeou o regime de apuração dos fornecedores e a limitação de créditos vindo do Simples Nacional?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_16", "pergunta": "16. (PV) Mapeou quais fornecedores no Simples precisarão migrar para o regime regular do IBS/CBS para manter a neutralidade?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_17", "pergunta": "17. (PV) Avaliou o impacto de compras submetidas à isenção, alíquota zero ou imunidade quanto ao aproveitamento/glosa de créditos?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_18", "pergunta": "18. (Conselheiro) Avaliou o timing ideal de CAPEX (máquinas/expansão) comparando o modelo atual com o IVA integral em 2027?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_19", "pergunta": "19. (Conselheiro) Como planeja adaptar insumos críticos (aço, ligas, sucata) e regimes suspensivos (Drawback/RECOF) ao IVA Dual?", "opcoes": OPCOES_PADRAO},
+        {"id": "b2_20", "pergunta": "20. (Conselheiro) Qual o plano de mitigação para a perda gradual de benefícios estaduais (ex: ICMS) que sustentam a margem?", "opcoes": OPCOES_PADRAO}
     ],
-    "Bloco 3: Finanças, ERP & Split Payment (Impacto de Caixa)": [
-        {
-            "id": "fin_01",
-            "pergunta": "11. O sistema ERP atual está mapeado e em fase de adequação/homologação técnica para o recolhimento automático do Split Payment (IBS/CBS)?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "fin_02",
-            "pergunta": "12. Foi realizado estudo de impacto do retenção do Split Payment sobre o Capital de Giro e a liquidez imediata da tesouraria?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "fin_03",
-            "pergunta": "13. A empresa possui estratégia definida para acompanhamento e ressarcimento de saldos credores acumulados dos novos tributos?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "fin_04",
-            "pergunta": "14. A apuração de custos e margens de contribuição utiliza modelagem que separa o efeito do IVA não-cumulativo dos custos operacionais?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "fin_05",
-            "pergunta": "15. O planejamento orçamentário anual (Orçado x Realizado) possui simulações para a fase de transição e alíquotas do IBS/CBS?",
-            "opcoes": OPCOES_PADRAO
-        }
+    "BLOCO 3: Gestão Financeira, Capacidade de Caixa e Tecnologia (ERP)": [
+        {"id": "b3_01", "pergunta": "1. Realiza reuniões mensais para acompanhamento de indicadores, DRE, Balanço e monitoramento do EBITDA?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_02", "pergunta": "2. Entende e acompanha as variáveis-chave responsáveis pela geração de valor do negócio?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_03", "pergunta": "3. O fluxo de caixa suporta eventual demora na recuperação de créditos tributários durante a transição?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_04", "pergunta": "4. Existe projeção do aumento da Necessidade de Capital de Giro (NCG) com a Reforma Tributária?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_05", "pergunta": "5. Tem clareza das margens de contribuição dos produtos que podem se tornar deficitários sob as novas alíquotas?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_06", "pergunta": "6. A gestão financeira é preditiva (antecipando impactos no EBITDA) ou apenas reativa?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_07", "pergunta": "7. Existe orçamento reservado para o custo de conformidade (sistemas, consultorias, treinamentos) da transição?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_08", "pergunta": "8. A gestão avalia o negócio pelo faturamento bruto ou pela margem de contribuição líquida pós-impostos?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_09", "pergunta": "9. O ERP atual possui inteligência para calcular e operacionalizar corretamente a nova regra tributária?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_10", "pergunta": "10. Os dados cadastrais do ERP estão 100% saneados para evitar glosa de créditos ou multas?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_11", "pergunta": "11. A empresa está investindo em automação para lidar com a burocracia da transição tributária?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_12", "pergunta": "12. A tecnologia utilizada permite simular cenários tributários em tempo real para precificação e compras?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_13", "pergunta": "13. Processos digitais estão sendo modernizados para gerar eficiência real na gestão?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_14", "pergunta": "14. (PV) Os setores de orçamento, compras, comercial e fiscal atuam integrados? O ERP está parametrizado para o NFS-e/CBS?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_15", "pergunta": "15. (PV) Foram mapeados os reflexos de caixa, margem e risco decorrentes da tributação sobre consumo?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_16", "pergunta": "16. (PV) Avaliou a cisão ou segregação de atividades complementares para otimizar o ciclo de crédito do IBS/CBS?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_17", "pergunta": "17. (PV) Foram mapeados reflexos no preço durante a convivência simultânea dos dois sistemas tributários?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_18", "pergunta": "18. (PV) Analisou impactos no caixa pelo recolhimento antecipado do IBS/CBS em adiantamentos e faturamento sem recebimento?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_19", "pergunta": "19. (PV) Avaliou a alteração do regime de apuração do IRPJ/CSLL diante do creditamento amplo do IVA?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_20", "pergunta": "20. (PV) Simulou o impacto econômico em saídas imunes, isentas ou alíquota reduzida quanto ao aproveitamento de créditos?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_21", "pergunta": "21. (PV) Simulou o aproveitamento imediato de créditos de CBS sobre compras de ativos imobilizados a partir de 2027?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_22", "pergunta": "22. (PV) Simulou o uso de crédito presumido sobre estoques e bens com substituição tributária em Jan/2027?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_23", "pergunta": "23. (PV) Há planejamento para consumo/compensação dos saldos credores acumulados de ICMS, PIS e COFINS?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_24", "pergunta": "24. (Conselheiro) Qual a estratégia de tesouraria para suportar a retenção por Split Payment com prazos da indústria (90-120 dias)?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_25", "pergunta": "25. (Conselheiro) Possui ferramentas automáticas para checar a regularidade fiscal de fornecedores e evitar glosa de créditos?", "opcoes": OPCOES_PADRAO},
+        {"id": "b3_26", "pergunta": "26. (Conselheiro) Existe plano de saneamento de contencioso fiscal legado para evitar trava em compensações do novo sistema?", "opcoes": OPCOES_PADRAO}
     ],
-    "Bloco 4: Comercial, Precificação, Margem & Pessoas/RH": [
-        {
-            "id": "com_01",
-            "pergunta": "16. A política de precificação (Pricing) foi revisada para neutralizar o impacto das alíquotas do IBS/CBS nas propostas comerciais B2B?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "com_02",
-            "pergunta": "17. A equipe comercial e de vendas está treinada para negociar o repasse fiscal e apresentar a Proposta de Valor sem perda de margem?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "com_03",
-            "pergunta": "18. Há monitoramento contínuo sobre os reflexos das alterações tributárias na folha de pagamento e nos custos diretos de mão de obra?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "com_04",
-            "pergunta": "19. O Plano de Cargos, Salários e Competências da empresa está alinhado com a retórica de retenção de talentos estratégicos?",
-            "opcoes": OPCOES_PADRAO
-        },
-        {
-            "id": "com_05",
-            "pergunta": "20. O modelo de vendas contempla avaliação do grau de dependência da carteira em relação aos maiores clientes e fornecedores do setor?",
-            "opcoes": OPCOES_PADRAO
-        }
+    "BLOCO 4: Mercado (Comercial/Marketing) e Governança de Capital Humano": [
+        {"id": "b4_01", "pergunta": "1. A Proposta de Valor é forte o suficiente para sustentar o preço quando as alíquotas ajustarem os preços do setor?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_02", "pergunta": "2. A equipe comercial sabe explicar tecnicamente ao cliente as variações de preço sem desgastar a marca?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_03", "pergunta": "3. A empresa conhece a elasticidade-preço da demanda para repassar novos custos sem perder volume?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_04", "pergunta": "4. A estratégia de canais (físico vs. digital) está preparada para a equalização das cargas tributárias entre estados?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_05", "pergunta": "5. Existe monitoramento sobre concorrentes que possam usar a reforma para ganhar market share?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_06", "pergunta": "6. A equipe atual tem capacidade técnica para operar dois sistemas tributários simultâneos sem sobrecarga?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_07", "pergunta": "7. Existe um plano de retenção agressivo para evitar a perda de talentos fiscais/financeiros durante a transição?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_08", "pergunta": "8. A cultura organizacional incentiva a adaptação rápida e o aprendizado contínuo?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_09", "pergunta": "9. Existe um plano de treinamento para capacitar a empresa sobre o impacto dos novos tributos no negócio?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_10", "pergunta": "10. As lideranças estão preparadas para conduzir as equipes através do período de incerteza fiscal?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_11", "pergunta": "11. (PV) A equipe de gestão e operação já foi treinada sobre as novas regras pós-reforma?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_12", "pergunta": "12. (PV) Mapeou a vedação de créditos de IBS/CBS sobre folha vs. a oportunidade de crédito amplo sobre serviços terceirizados (PJ)?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_13", "pergunta": "13. (PV) Mapeou os clientes que farão retenção/Split Payment do IBS/CBS e o impacto disso no caixa?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_14", "pergunta": "14. (Conselheiro) A equipe comercial foi treinada para negociar preços na base líquida (Net Price) destacando o crédito do comprador?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_15", "pergunta": "15. (Conselheiro) Contratos de fornecimento possuem cláusulas de revisão por imprevisto tributário (Hardship)?", "opcoes": OPCOES_PADRAO},
+        {"id": "b4_16", "pergunta": "16. (Conselheiro) Simulou a posição competitiva frente a concorrentes (nacionais vs. importadores) quanto aos ganhos de margem no IVA?", "opcoes": OPCOES_PADRAO}
     ]
 }
