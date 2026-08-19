@@ -52,7 +52,7 @@ st.sidebar.divider()
 st.sidebar.caption("v 6.0 - DANGELLI Governance & Strategy")
 
 # --- CABEÇALHO PRINCIPAL ---
-st.title("🛡️ DANGELLI - Diagnóstico Estratégico Corporativo - Govenança/Estratégia/Finanças/Operações/Logística/RH")
+st.title("🛡️ DANGELLI - Diagnóstico Estratégico Corporativo 2026 - inclui Reforma Tributária")
 
 # Formulário de Identificação
 col_a, col_b = st.columns(2)
