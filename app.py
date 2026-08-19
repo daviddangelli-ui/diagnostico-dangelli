@@ -25,7 +25,7 @@ def oferecer_proximos_passos(nome, empresa, tipo_diag, resumo_medias, detalhamen
     col1, col2 = st.columns(2)
     with col1:
         st.info("💡 **Análise de Governança:** Envie o relatório detalhado diretamente para nossa equipe de conselheiros.")
-        link_wa = f"https://wa.me/5531999999999?text={texto_wa}"  # Atualizar número se necessário
+        link_wa = f"https://wa.me/5531983984001?text={texto_wa}"  # Atualizar número se necessário
         st.markdown(f'[![Enviar no WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)]({link_wa})')
 
 # --- MENU LATERAL (SIDEBAR) ---
