@@ -25,7 +25,7 @@ DIAGNOSTICO_MASTER = {
         {"id": "b1_13", "pergunta": "13. Possui regras para impenhorabilidade nos bens?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_14", "pergunta": "14. A empresa fez seu Valuation recente para conhecer o valor das cotas dos sócios em caso de necessidade - sucessão, saída da sociedade, morte etc?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_15", "pergunta": "15. Já cogitaram venda e/ou a empresa já recebeu assédio do mercado interessado em comprar o ativo ou sociedade?", "opcoes": OPCOES_PADRAO},
-        {"id": "b1_16", "pergunta": "16. A empresa já instituiu um Comitê de transição interno para acompanhar as ações e a sustentabilidade do negócio?", "opcoes": OPCOES_PADRAO},
+        {"id": "b1_16", "pergunta": "16. A empresa já instituiu um Comitê de transição interno para acompanhar as ações e a sustentabilidade do negócio? Como está estruturado e as ações atuais sendo desenvolvidas?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_17", "pergunta": "17. Foram feitas simulações sobre reestruturação societária (cisão, PJ operacional/patrimonial) diante das alterações do IRPJ/CSLL referente a lucros/dividendos no momento de sua distribuição e/ou antecipação são superiores a R$50.000,00 por mês?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_18", "pergunta": "18. O Comitê de Transição possui regimento interno formal, matriz de alçadas para aprovar investimentos e reporte direto ao Conselho?", "opcoes": OPCOES_PADRAO},
         {"id": "b1_19", "pergunta": "19. A transição da Reforma foi incorporada às metas (OKRs/KPIs) e à remuneração variável das diretorias executivas?", "opcoes": OPCOES_PADRAO},
